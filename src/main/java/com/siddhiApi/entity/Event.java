@@ -1,6 +1,6 @@
 package com.siddhiApi.entity;
 
-import com.siddhiApp.util.HandlerJsonToObjectArray;
+import com.siddhiApi.util.HandlerJsonToObjectArray;
 
 public class Event {
 	private String event;
