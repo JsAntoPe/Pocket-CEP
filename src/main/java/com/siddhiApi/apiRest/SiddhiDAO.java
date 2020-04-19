@@ -2,11 +2,16 @@ package com.siddhiApi.apiRest;
 
 import com.siddhiApi.entity.Event;
 
+import java.util.List;
+
+
 public interface SiddhiDAO {
-	String runApp(String file, String nameApp);
+	String runApp(String streamImplementation, String streamName);
+
+	List<String> getApplicationsRunning();
+
+	void stopApp(String streamName);
 	
-	void stopApp(String name);
-	
-	void sendEvent(String nameOfApp, Event event);
+	void sendEvent(String streamName, Event event);
 }
 

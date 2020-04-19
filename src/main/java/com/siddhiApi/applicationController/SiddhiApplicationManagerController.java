@@ -9,8 +9,13 @@ import com.siddhiApi.apiRest.SiddhiDAO;
 import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.Event;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/api/application")
+@RequestMapping(value = "/api/applications")
 public class SiddhiApplicationManagerController {
 
 	Logger logger = LoggerFactory.getLogger(SiddhiApplicationManagerController.class);
@@ -22,13 +27,30 @@ public class SiddhiApplicationManagerController {
 		this.siddhiDao = siddhiDao;
 	}
 
-	@GetMapping("/run")
+	@GetMapping("/hello")
+	public String hello(){
+		String s = "Hello world";
+		return s;
+	}
+
+	@PostMapping("/run")
 	public String runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
 		logger.debug("Llego a run");
-		String AppName = siddhiDao.runApp(application.getName(), application.getApplicationCode());
+		logger.info(application.getApplicationCode());
+		String AppName = siddhiDao.runApp(application.getApplicationCode(), application.getStreamName());
 		//return "The app with name " + AppName + " has been initialized";
 		AppName = "Hola mundo";
 		return AppName;
+	}
+
+	@GetMapping("/streamsRunning")
+	public String getStreamsRunning(){
+		List<String> appsRunning;
+		appsRunning = siddhiDao.getApplicationsRunning();
+		if (appsRunning.size() > 0)
+			return appsRunning.stream().reduce("Apps running: ", (s1, s2) -> s1 + "\n" + s2);
+		else
+			return "No applications running at the moment.";
 	}
 	
 	@PostMapping("/sendEvent/{nameApp}")

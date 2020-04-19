@@ -3,23 +3,32 @@ package com.siddhiApi.apiRest;
 
 import com.siddhiApi.SiddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Event;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class SiddhiDAOImpl implements SiddhiDAO{
 
-	public String runApp(String file, String nameApp) {
+	public String runApp(String streamImplementation, String streamName) {
 		// TODO Auto-generated method stub
-		boolean successfulRun = SiddhiApplicationManager.runApp(file, nameApp);
-		return successfulRun ? nameApp : "Run failed";
+		boolean successfulRun = SiddhiApplicationManager.runApp(streamImplementation, streamName);
+		return successfulRun ? streamName : "Run failed";
+	}
+
+	@Override
+	public List<String> getApplicationsRunning() {
+		return SiddhiApplicationManager.applications();
 	}
 
 
-	public void stopApp(String name) {
+	public void stopApp(String streamName) {
 		// TODO Auto-generated method stub
-		SiddhiApplicationManager.stopApp(name);
+		SiddhiApplicationManager.stopApp(streamName);
 	}
 
 
-	public void sendEvent(String nameOfApp, Event event) {
+	public void sendEvent(String streamName, Event event) {
 		// TODO Auto-generated method stub
 		SiddhiApplicationManager.sendEvent(event.parseToObject());
 	}

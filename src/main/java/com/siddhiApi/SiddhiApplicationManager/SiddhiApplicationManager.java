@@ -8,11 +8,11 @@ import java.util.Map;
 public class SiddhiApplicationManager {
 	private static Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	
-	public static boolean runApp(String file, String fileName) {
+	public static boolean runApp(String streamImplementation, String streamName) {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
-		if(!applications.containsKey(fileName)){
-			applications.put(fileName, new RunSiddhiApplication());
-			applications.get(fileName).runApp(file, fileName);
+		if(!applications.containsKey(streamName)){
+			applications.put(streamName, new RunSiddhiApplication());
+			applications.get(streamName).runApp(streamImplementation, streamName);
 			return true;
 		}
 		else
