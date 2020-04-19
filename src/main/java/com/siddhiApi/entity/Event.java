@@ -16,7 +16,6 @@ public class Event {
 	public Object[] parseToObject() { //:{1}("?\w*"?[^,{}]*)
 		HandlerJsonToObjectArray handler = new HandlerJsonToObjectArray();
 		Object[] objectArray = handler.jsonToObjectArray(getEvent());
-		System.out.println(objectArray);
 		return objectArray;
 	}
 	

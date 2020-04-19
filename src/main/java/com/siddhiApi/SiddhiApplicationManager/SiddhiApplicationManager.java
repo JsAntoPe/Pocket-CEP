@@ -32,7 +32,7 @@ public class SiddhiApplicationManager {
 		return appsNames;
 	}
 	
-	public static void sendEvent(Object[] event) {
-		System.out.println(event);
+	public static void sendEvent(String streamName, Object[] event) {
+		applications.get(streamName).sendEvent(event);
 	}
 }

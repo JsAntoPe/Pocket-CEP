@@ -30,7 +30,7 @@ public class SiddhiDAOImpl implements SiddhiDAO{
 
 	public void sendEvent(String streamName, Event event) {
 		// TODO Auto-generated method stub
-		SiddhiApplicationManager.sendEvent(event.parseToObject());
+		SiddhiApplicationManager.sendEvent(streamName, event.parseToObject());
 	}
 	
 }

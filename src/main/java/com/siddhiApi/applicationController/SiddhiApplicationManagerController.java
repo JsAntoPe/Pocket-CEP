@@ -9,10 +9,7 @@ import com.siddhiApi.apiRest.SiddhiDAO;
 import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.Event;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/applications")
@@ -38,9 +35,7 @@ public class SiddhiApplicationManagerController {
 		logger.debug("Llego a run");
 		logger.info(application.getApplicationCode());
 		String AppName = siddhiDao.runApp(application.getApplicationCode(), application.getStreamName());
-		//return "The app with name " + AppName + " has been initialized";
-		AppName = "Hola mundo";
-		return AppName;
+		return "The app with name " + AppName + " has been initialized";
 	}
 
 	@GetMapping("/streamsRunning")
@@ -55,6 +50,7 @@ public class SiddhiApplicationManagerController {
 	
 	@PostMapping("/sendEvent/{nameApp}")
 	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
+		//logger.info(Arrays.toString(event));
 		siddhiDao.sendEvent(nameApp, event);
 	}
 }

@@ -11,12 +11,13 @@ import java.util.regex.Pattern;
 public class HandlerJsonToObjectArray {
 	
 	@SuppressWarnings("serial")
-	Map<String, Function<String, Object>> parsers = new HashMap<String, Function<String, Object>>() {
+	/*Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
 		{
-			put("f", (s) -> Float.parseFloat(s));
-			put("L", (s) -> Long.parseLong(s));
+			put('f', (s) -> Float.parseFloat(s));
+			put('L', (s) -> Long.parseLong(s));
+			put('\"', (s) -> s);
 		}
-	};
+	};*/
 	
 	
 	
@@ -24,7 +25,9 @@ public class HandlerJsonToObjectArray {
 		List<String> valuesArray = extractValuesFromJsonString(event);
 		Object[] objectArray = new Object[valuesArray.size()];
 		for(int i=0; i<valuesArray.size(); ++i) {
-			System.out.println(valuesArray.size());
+			objectArray[i] = valuesArray.get(i);/*parsers
+					.get(valuesArray.get(i).charAt(valuesArray.get(i).length() - 1));
+					.apply(valuesArray.get(i));*/
 		}
 		return objectArray;
 		
@@ -36,7 +39,7 @@ public class HandlerJsonToObjectArray {
 		Pattern pattern = Pattern.compile(":(\"?\\w*\"?[^,{}]*)");
 		Matcher matcher = pattern.matcher(event);
 		while(matcher.find()) {
-			begin = matcher.start();
+			begin = matcher.start() + 2;
 			end = matcher.end();
 			jsonValuesForStream.add(event.substring(begin, end));
 		}
