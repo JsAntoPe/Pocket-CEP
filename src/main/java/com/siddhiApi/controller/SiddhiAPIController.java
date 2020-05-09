@@ -1,11 +1,11 @@
-package com.siddhiApi.applicationController;
+package com.siddhiApi.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.siddhiApi.apiRest.SiddhiDAO;
+import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.Event;
 
@@ -13,14 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/applications")
-public class SiddhiApplicationManagerController {
+public class SiddhiAPIController {
 
-	Logger logger = LoggerFactory.getLogger(SiddhiApplicationManagerController.class);
+	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
 
 	@Autowired
 	private final SiddhiDAO siddhiDao;
 
-	public SiddhiApplicationManagerController(SiddhiDAO siddhiDao) {
+	public SiddhiAPIController(SiddhiDAO siddhiDao) {
 		this.siddhiDao = siddhiDao;
 	}
 
@@ -53,4 +53,13 @@ public class SiddhiApplicationManagerController {
 		//logger.info(Arrays.toString(event));
 		siddhiDao.sendEvent(nameApp, event);
 	}
+
+	/*@PostMapping("/secondSendEvent")
+	public void secondSendEvent(@RequestBody Event event){
+		logger.info("El evento es: " + event.toString());
+		logger.info("El array resultante es: ");
+		for (Object element: event.secondParser()){
+			logger.info("Elemento: " + element);
+		}
+	}*/
 }

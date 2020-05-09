@@ -1,4 +1,4 @@
-package com.siddhiApi.apiRest;
+package com.siddhiApi.dao;
 
 import com.siddhiApi.entity.Event;
 
