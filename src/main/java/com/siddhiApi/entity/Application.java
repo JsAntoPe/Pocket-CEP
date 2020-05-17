@@ -1,19 +1,28 @@
 package com.siddhiApi.entity;
 
 public class Application {
-private String streamName, applicationCode;
+private String inputStreamName, outputStreamName, applicationCode;
 	
-	public Application(String streamName, String applicationCode) {
-		this.streamName = streamName;
+	public Application(String inputStreamName, String outputStreamName, String applicationCode) {
+		this.inputStreamName = inputStreamName;
+		this.outputStreamName = outputStreamName;
 		this.applicationCode = applicationCode;
 	}
-	
-	public String getStreamName() {
-		return streamName;
+
+	public String getInputStreamName() {
+		return inputStreamName;
 	}
 
-	public void setStreamName(String name) {
-		this.streamName = name;
+	public void setInputStreamName(String inputStreamName) {
+		this.inputStreamName = inputStreamName;
+	}
+
+	public String getOutputStreamName() {
+		return outputStreamName;
+	}
+
+	public void setOutputStreamName(String outputStreamName) {
+		this.outputStreamName = outputStreamName;
 	}
 
 	public String getApplicationCode() {

@@ -1,9 +1,5 @@
 package com.siddhiApi.SiddhiApplicationManager;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
@@ -19,29 +15,31 @@ public class RunSiddhiApplication {
 	private static SiddhiManager siddhiManager = new SiddhiManager();
 	private SiddhiAppRuntime siddhiAppRuntime;
 	InputHandler inputHandler;
-	public void runApp(String streamImplementation, String streamName) {
-		//Siddhi Application
-			String siddhiApp = streamImplementation;
-			
-			siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(siddhiApp);
 
-	        //Start event processing
-	        siddhiAppRuntime.start();
-	        
-	        siddhiAppRuntime.addCallback(streamName, new StreamCallback() {
-	            @Override
-	            public void receive(Event[] events) {
-	                EventPrinter.print(events);
-	            }
-	        });
-	        inputHandler = siddhiAppRuntime.getInputHandler(streamName);
-    		logger.info("App running");
+	public void runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
+		//Siddhi Application
+		String siddhiApp = streamImplementation;
+
+		siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(siddhiApp);
+
+		//Start event processing
+		siddhiAppRuntime.start();
+
+		siddhiAppRuntime.addCallback(outputStreamName, new StreamCallback() {
+			@Override
+			public void receive(Event[] events) {
+				EventPrinter.print((Event[]) toMap(events));
+			}
+		});
+		inputHandler = siddhiAppRuntime.getInputHandler(inputStreamName);
+		logger.info("App running");
+
 	}
 	
 	public void stopApp() {
 		siddhiAppRuntime.shutdown();
 	}
-	
+
 	public void sendEvent(Object[] event) {
 		try {
 			inputHandler.send(event);

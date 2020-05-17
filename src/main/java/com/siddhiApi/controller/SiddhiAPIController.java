@@ -1,5 +1,6 @@
 package com.siddhiApi.controller;
 
+import com.siddhiApi.services.applicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ public class SiddhiAPIController {
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
 
 	@Autowired
-	private final SiddhiDAO siddhiDao;
+	private final applicationService applicationService;
 
-	public SiddhiAPIController(SiddhiDAO siddhiDao) {
-		this.siddhiDao = siddhiDao;
+	public SiddhiAPIController(applicationService applicationService) {
+		this.applicationService = applicationService;
 	}
 
 	@GetMapping("/hello")
@@ -34,14 +35,14 @@ public class SiddhiAPIController {
 	public String runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
 		logger.debug("Llego a run");
 		logger.info(application.getApplicationCode());
-		String AppName = siddhiDao.runApp(application.getApplicationCode(), application.getStreamName());
+		String AppName = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
 		return "The app with name " + AppName + " has been initialized";
 	}
 
 	@GetMapping("/streamsRunning")
 	public String getStreamsRunning(){
 		List<String> appsRunning;
-		appsRunning = siddhiDao.getApplicationsRunning();
+		appsRunning = applicationService.getApplicationsRunning();
 		if (appsRunning.size() > 0)
 			return appsRunning.stream().reduce("Apps running: ", (s1, s2) -> s1 + "\n" + s2);
 		else
@@ -51,7 +52,7 @@ public class SiddhiAPIController {
 	@PostMapping("/sendEvent/{nameApp}")
 	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
 		//logger.info(Arrays.toString(event));
-		siddhiDao.sendEvent(nameApp, event);
+		applicationService.sendEvent(nameApp, event);
 	}
 
 	/*@PostMapping("/secondSendEvent")
