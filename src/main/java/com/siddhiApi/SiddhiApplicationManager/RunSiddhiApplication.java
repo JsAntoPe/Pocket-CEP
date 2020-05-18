@@ -59,6 +59,9 @@ public class RunSiddhiApplication {
 	}
 
 	public void sendEvent(Object[] event) {
+		for(Object object: event){
+			logger.info("Clase del objeto: " + object.getClass().toString());
+		}
 		try {
 			inputHandler.send(event);
 		} catch (InterruptedException e) {

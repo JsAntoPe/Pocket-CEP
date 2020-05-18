@@ -11,13 +11,13 @@ import java.util.regex.Pattern;
 public class HandlerJsonToObjectArray {
 	
 	@SuppressWarnings("serial")
-	/*Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
+	Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
 		{
 			put('f', (s) -> Float.parseFloat(s));
 			put('L', (s) -> Long.parseLong(s));
-			put('\"', (s) -> s);
+			put('\"', (s) -> s.substring(1, s.length()));
 		}
-	};*/
+	};
 	
 	
 	
@@ -25,9 +25,8 @@ public class HandlerJsonToObjectArray {
 		List<String> valuesArray = extractValuesFromJsonString(event);
 		Object[] objectArray = new Object[valuesArray.size()];
 		for(int i=0; i<valuesArray.size(); ++i) {
-			objectArray[i] = valuesArray.get(i);/*parsers
-					.get(valuesArray.get(i).charAt(valuesArray.get(i).length() - 1));
-					.apply(valuesArray.get(i));*/
+			objectArray[i] = parsers.get(valuesArray.get(i).charAt(valuesArray.get(i).length() - 1))
+					.apply(valuesArray.get(i).substring(0, valuesArray.get(i).length() - 1));
 		}
 		return objectArray;
 		
