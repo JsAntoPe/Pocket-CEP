@@ -1,16 +1,19 @@
 package com.siddhiApi.SiddhiApplicationManager;
 
+import com.siddhiApi.entity.Event;
+import io.siddhi.core.SiddhiAppRuntime;
+import io.siddhi.core.SiddhiManager;
+import io.siddhi.core.query.output.callback.QueryCallback;
+import io.siddhi.core.stream.input.InputHandler;
+import io.siddhi.core.stream.output.StreamCallback;
+import io.siddhi.core.util.EventPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wso2.siddhi.core.SiddhiAppRuntime;
-import org.wso2.siddhi.core.SiddhiManager;
-import org.wso2.siddhi.core.event.Event;
-import org.wso2.siddhi.core.stream.input.InputHandler;
-import org.wso2.siddhi.core.stream.output.StreamCallback;
-import org.wso2.siddhi.core.util.EventPrinter;
+
+import sun.rmi.runtime.Log;
 
 public class RunSiddhiApplication {
-	Logger logger = LoggerFactory.getLogger(RunSiddhiApplication.class);
+	static Logger logger = LoggerFactory.getLogger(RunSiddhiApplication.class);
 
 	private static SiddhiManager siddhiManager = new SiddhiManager();
 	private SiddhiAppRuntime siddhiAppRuntime;
@@ -27,15 +30,30 @@ public class RunSiddhiApplication {
 
 		siddhiAppRuntime.addCallback(outputStreamName, new StreamCallback() {
 			@Override
-			public void receive(Event[] events) {
-				EventPrinter.print((Event[]) toMap(events));
+			public void receive(io.siddhi.core.event.Event[] events) {
+				for (io.siddhi.core.event.Event event: events) {
+					logger.info("Llego");
+					logger.info("Evento de salida: " + event.getData(0).toString());
+				}
 			}
 		});
+
+		siddhiAppRuntime.addCallback("query1", new QueryCallback() {
+			@Override
+			public void receive(long l, io.siddhi.core.event.Event[] events, io.siddhi.core.event.Event[] events1) {
+				for (io.siddhi.core.event.Event event: events) {
+					logger.info("Llego");
+					logger.info("Evento de salida: " + event.getData(0).toString());
+				}
+				EventPrinter.print(events);
+				EventPrinter.print(events1);
+			}
+		});
+
 		inputHandler = siddhiAppRuntime.getInputHandler(inputStreamName);
 		logger.info("App running");
-
 	}
-	
+
 	public void stopApp() {
 		siddhiAppRuntime.shutdown();
 	}
