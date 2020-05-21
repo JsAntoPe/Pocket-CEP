@@ -35,8 +35,8 @@ public class SiddhiAPIController {
 	public String runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
 		logger.debug("Llego a run");
 		logger.info(application.getApplicationCode());
-		String AppName = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
-		return "The app with name " + AppName + " has been initialized";
+		Boolean succesfulRun = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
+		return succesfulRun ? "The app with name " + application.getInputStreamName() + " has been initialized" : "Error in launching application";
 	}
 
 	@GetMapping("/streamsRunning")

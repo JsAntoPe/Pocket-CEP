@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface SiddhiDAO {
-	String runApp(String streamImplementation, String inputStreamName, String outputStreamName);
+	Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName);
 
 	List<String> getApplicationsRunning();
 

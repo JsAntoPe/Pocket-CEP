@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class SiddhiDAOImpl implements SiddhiDAO{
 
-	public String runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
+	public Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
 		// TODO Auto-generated method stub
 		boolean successfulRun = SiddhiApplicationManager.runApp(streamImplementation, inputStreamName, outputStreamName);
-		return successfulRun ? inputStreamName : "Run failed";
+		return successfulRun;
 	}
 
 	@Override

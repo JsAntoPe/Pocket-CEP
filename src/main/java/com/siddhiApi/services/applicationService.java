@@ -5,7 +5,7 @@ import com.siddhiApi.entity.Event;
 import java.util.List;
 
 public interface applicationService {
-    String runApp(String streamImplementation, String inputStreamName, String outputStreamName);
+    Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName);
 
     List<String> getApplicationsRunning();
 
