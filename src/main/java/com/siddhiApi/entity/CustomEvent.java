@@ -16,4 +16,12 @@ public class CustomEvent {
     void setEventParameters(String parameter, Object value){
         eventParameters.put(parameter, value);
     }
+
+    public Map<String, Object> getEventParameters() {
+        return eventParameters;
+    }
+
+    public void setEventParameters(Map<String, Object> eventParameters) {
+        this.eventParameters = eventParameters;
+    }
 }
