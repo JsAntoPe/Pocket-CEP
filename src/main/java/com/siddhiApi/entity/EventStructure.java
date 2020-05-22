@@ -35,7 +35,7 @@ public class EventStructure {
                 endTypeParameter = matcher.end();
                 logger.info("Parameter: " + parameters.substring(beginParameter, endParameter));
                 logger.info("Type of parameter: " + parameters.substring(beginTypeParameter, endTypeParameter));
-                //typeOfParameters.put(application.substring(beginParameter, endParameter), application.substring(beginTypeParameter, endTypeParameter));
+                typeOfParameters.put(application.substring(beginParameter, endParameter), application.substring(beginTypeParameter, endTypeParameter));
             }
             parametersList = new ArrayList<>(typeOfParameters.keySet());
         }
