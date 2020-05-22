@@ -1,5 +1,6 @@
 package com.siddhiApi.controller;
 
+import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.services.applicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,12 +56,12 @@ public class SiddhiAPIController {
 		applicationService.sendEvent(nameApp, event);
 	}
 
-	/*@PostMapping("/secondSendEvent")
-	public void secondSendEvent(@RequestBody Event event){
+	@PostMapping("/secondSendEvent")
+	public void secondSendEvent(@RequestBody CustomEvent event){
 		logger.info("El evento es: " + event.toString());
-		logger.info("El array resultante es: ");
+		/*logger.info("El array resultante es: ");
 		for (Object element: event.secondParser()){
 			logger.info("Elemento: " + element);
-		}
-	}*/
+		}*/
+	}
 }

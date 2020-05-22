@@ -12,6 +12,6 @@ public interface SiddhiDAO {
 
 	void stopApp(String streamName);
 	
-	void sendEvent(String streamName, Event event);
+	void sendEvent(String streamName, Object[] event);
 }
 

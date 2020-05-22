@@ -27,8 +27,8 @@ public class SiddhiDAOImpl implements SiddhiDAO{
 	}
 
 
-	public void sendEvent(String streamName, Event event) {
+	public void sendEvent(String streamName, Object[] event) {
 		// TODO Auto-generated method stub
-		SiddhiApplicationManager.sendEvent(streamName, event.parseToObject());
+		SiddhiApplicationManager.sendEvent(streamName, event);
 	}
 }
