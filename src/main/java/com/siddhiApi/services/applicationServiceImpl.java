@@ -4,6 +4,8 @@ import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.dao.StreamStructureDao;
 import com.siddhiApi.entity.Event;
 import com.siddhiApi.entity.EventStructure;
+import com.siddhiApi.util.CustomEventToObjectArray;
+import com.siddhiApi.util.HandlerJsonToObjectArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class applicationServiceImpl implements applicationService{
         Boolean successfulRun = siddhiDAO.runApp(streamImplementation, inputStreamName, outputStreamName);
         logger.info("SuccesfulRun: " + successfulRun);
         if (successfulRun){
-            streamStructureDao.createStructure(streamImplementation, inputStreamName);
+            streamStructureDao.createStructure(inputStreamName, streamImplementation);
         }
         return successfulRun;
     }
@@ -45,7 +47,11 @@ public class applicationServiceImpl implements applicationService{
 
     @Override
     public void sendEvent(String streamName, Event event) {
-        /*EventStructure eventStructure = streamStructureDao.getStructure(streamName);
-        siddhiDAO.sendEvent(streamName, event);*/
+        EventStructure eventStructure = streamStructureDao.getStructure(streamName);
+        /*if() {
+
+        }else{
+            siddhiDAO.sendEvent(streamName, event.parseToObject());
+        }*/
     }
 }

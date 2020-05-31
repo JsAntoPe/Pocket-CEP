@@ -13,8 +13,8 @@ public class HandlerJsonToObjectArray {
 	@SuppressWarnings("serial")
 	Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
 		{
-			put('f', (s) -> Float.parseFloat(s));
-			put('L', (s) -> Long.parseLong(s));
+			put('f', Float::parseFloat); // (s) -> Float.parseFloat(s)
+			put('L', Long::parseLong); // (s) -> Long.parseLong(s)
 			put('\"', (s) -> s.substring(1, s.length()));
 		}
 	};

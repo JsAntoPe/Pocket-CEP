@@ -1,7 +1,10 @@
 package com.siddhiApi.controller;
 
+import com.siddhiApi.dao.StreamStructureDao;
 import com.siddhiApi.entity.CustomEvent;
+import com.siddhiApi.entity.EventStructure;
 import com.siddhiApi.services.applicationService;
+import com.siddhiApi.util.CustomEventToObjectArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ import java.util.List;
 public class SiddhiAPIController {
 
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
+
+	@Autowired
+	private StreamStructureDao streamStructureDao;
 
 	@Autowired
 	private final applicationService applicationService;
@@ -56,9 +62,18 @@ public class SiddhiAPIController {
 		applicationService.sendEvent(nameApp, event);
 	}
 
-	@PostMapping("/secondSendEvent")
-	public void secondSendEvent(@RequestBody CustomEvent event){
+	@PostMapping("/secondSendEvent/{streamName}")
+	public void secondSendEvent(@PathVariable String streamName, @RequestBody CustomEvent event){
 		logger.info("El evento es: " + event.toString());
+		EventStructure eventStructure = streamStructureDao.getStructure(streamName);
+		for(String parameter: eventStructure.getParameters()){
+			logger.info("Parametro: " + parameter);
+		}
+		if(new CustomEventToObjectArray().checkEventAndStream(event, eventStructure)){
+			logger.info("Los eventos coinciden");
+		} else {
+			logger.info("Los eventos no coinciden");
+		}
 		/*logger.info("El array resultante es: ");
 		for (Object element: event.secondParser()){
 			logger.info("Elemento: " + element);
