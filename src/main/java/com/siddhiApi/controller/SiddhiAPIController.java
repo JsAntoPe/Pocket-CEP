@@ -23,9 +23,6 @@ public class SiddhiAPIController {
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
 
 	@Autowired
-	private StreamStructureDao streamStructureDao;
-
-	@Autowired
 	private final applicationService applicationService;
 
 	public SiddhiAPIController(applicationService applicationService) {
@@ -56,27 +53,19 @@ public class SiddhiAPIController {
 			return "No applications running at the moment.";
 	}
 	
-	@PostMapping("/sendEvent/{nameApp}")
+	/*@PostMapping("/sendEvent/{nameApp}")
 	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
 		//logger.info(Arrays.toString(event));
 		applicationService.sendEvent(nameApp, event);
-	}
+	}*/
 
 	@PostMapping("/secondSendEvent/{streamName}")
 	public void secondSendEvent(@PathVariable String streamName, @RequestBody CustomEvent event){
-		logger.info("El evento es: " + event.toString());
-		EventStructure eventStructure = streamStructureDao.getStructure(streamName);
-		for(String parameter: eventStructure.getParameters()){
-			logger.info("Parametro: " + parameter);
+		try {
+			applicationService.sendEvent(streamName, event);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("There was a exception: " + e);
 		}
-		if(new CustomEventToObjectArray().checkEventAndStream(event, eventStructure)){
-			logger.info("Los eventos coinciden");
-		} else {
-			logger.info("Los eventos no coinciden");
-		}
-		/*logger.info("El array resultante es: ");
-		for (Object element: event.secondParser()){
-			logger.info("Elemento: " + element);
-		}*/
 	}
 }
