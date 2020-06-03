@@ -1,6 +1,5 @@
 package com.siddhiApi.util;
 
-import com.mchange.v1.lang.BooleanUtils;
 import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.entity.EventStructure;
 import org.slf4j.Logger;
@@ -15,14 +14,11 @@ public class CustomEventToObjectArray {
 
     public CustomEventToObjectArray(){}
 
-    public Boolean checkEventAndStream(CustomEvent customEvent, EventStructure eventStructure){
+    private Boolean checkEventAndStream(CustomEvent customEvent, EventStructure eventStructure){
         ArrayList<Boolean> conditionsToApply = new ArrayList<Boolean>();
         conditionsToApply.add(checkParameters(customEvent, eventStructure));
-        conditionsToApply.add(checkTypeOfParameters(customEvent, eventStructure));
-        return conditionsToApply.stream().allMatch(val -> {
-            logger.info("Val: " + val);
-            return val == true;
-        });
+        //conditionsToApply.add(checkTypeOfParameters(customEvent, eventStructure));
+        return conditionsToApply.stream().allMatch(val -> val == true);
     }
 
     private Boolean checkParameters(CustomEvent customEvent, EventStructure eventStructure){
@@ -31,16 +27,27 @@ public class CustomEventToObjectArray {
         return structureSet.removeAll(eventSet);
     }
 
-    private Boolean checkTypeOfParameters(CustomEvent customEvent, EventStructure eventStructure){
+    public Object[] parseCustomEventToObjectArray(CustomEvent customEvent, EventStructure eventStructure) throws Exception{
+        if(!checkEventAndStream(customEvent, eventStructure))
+            throw new Exception("Event is not of the same type as the stream");
+
+        List<Object> objectList = new ArrayList<>();
         Map<String, String> typeOfParameters = eventStructure.getTypeOfParameters();
         Map<String, Object> eventParameters = customEvent.getEventParameters();
+
         for(String type: typeOfParameters.keySet()){
-            if (!(typeOfParameters.get(type)).equals("string") && !isNumeric(eventParameters.get(type).toString(), typeOfParameters.get(type))){
-                logger.info("El parametro no coincide.");
-                return false;
+            if (!(typeOfParameters.get(type)).equals("string")){
+                try{
+                    objectList.add(toNumeric(eventParameters.get(type).toString(), typeOfParameters.get(type)));
+                }catch(Exception e){
+                    throw e;
+                }
+
+            } else {
+                objectList.add(eventParameters.get(type).toString());
             }
         }
-        return true;
+        return objectList.toArray();
     }
 
     private static final Map<String, Function<String, Object>> parsers = new HashMap<String, Function<String, Object>>() {
@@ -50,16 +57,16 @@ public class CustomEventToObjectArray {
         }
     };
 
-    private Boolean isNumeric(String strNum, String type) {
+    private Object toNumeric(String strNum, String type) throws Exception{
+        Object number;
         if (strNum == null) {
-            return false;
+            throw new Exception("Null is not a valid value");
         }
         try {
-            parsers.get(type).apply(strNum.substring(0, strNum.length()-1));
+            number = parsers.get(type).apply(strNum.substring(0, strNum.length()-1));
         } catch (NumberFormatException nfe) {
-            logger.info("Llego");
-            return false;
+            throw new Exception("Cannot transform to number");
         }
-        return true;
+        return number;
     }
 }
