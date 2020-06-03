@@ -24,7 +24,8 @@ public class CustomEventToObjectArray {
     private Boolean checkParameters(CustomEvent customEvent, EventStructure eventStructure){
         Set<String> eventSet = customEvent.getEventParameters().keySet();
         Set<String> structureSet = new HashSet<>(eventStructure.getParameters());
-        return structureSet.removeAll(eventSet);
+
+        return structureSet.equals(eventSet);
     }
 
     public Object[] parseCustomEventToObjectArray(CustomEvent customEvent, EventStructure eventStructure) throws Exception{
@@ -35,7 +36,13 @@ public class CustomEventToObjectArray {
         Map<String, String> typeOfParameters = eventStructure.getTypeOfParameters();
         Map<String, Object> eventParameters = customEvent.getEventParameters();
 
-        for(String type: typeOfParameters.keySet()){
+        for(String type: eventStructure.getParameters()){
+            logger.info("Type: " + type);
+        }
+
+        for(String type: eventStructure.getParameters()){
+            logger.info("Type: " + type);
+            logger.info("Value: " + eventParameters.get(type).toString());
             if (!(typeOfParameters.get(type)).equals("string")){
                 try{
                     objectList.add(toNumeric(eventParameters.get(type).toString(), typeOfParameters.get(type)));
