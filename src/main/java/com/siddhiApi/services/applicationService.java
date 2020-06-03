@@ -1,6 +1,6 @@
 package com.siddhiApi.services;
 
-import com.siddhiApi.entity.Event;
+import com.siddhiApi.entity.CustomEvent;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public interface applicationService {
 
     void stopApp(String streamName);
 
-    void sendEvent(String streamName, Event event);
+    void sendEvent(String streamName, CustomEvent event) throws Exception;
 }

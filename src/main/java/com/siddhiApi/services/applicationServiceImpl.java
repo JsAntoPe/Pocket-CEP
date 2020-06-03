@@ -2,6 +2,7 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.dao.StreamStructureDao;
+import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.entity.Event;
 import com.siddhiApi.entity.EventStructure;
 import com.siddhiApi.util.CustomEventToObjectArray;
@@ -46,12 +47,14 @@ public class applicationServiceImpl implements applicationService{
     }
 
     @Override
-    public void sendEvent(String streamName, Event event) {
+    public void sendEvent(String streamName, CustomEvent event) throws Exception{
         EventStructure eventStructure = streamStructureDao.getStructure(streamName);
-        /*if() {
-
-        }else{
-            siddhiDAO.sendEvent(streamName, event.parseToObject());
-        }*/
+        Object[] arrayFormedEvent;
+        try{
+            arrayFormedEvent = new CustomEventToObjectArray().parseCustomEventToObjectArray(event, eventStructure);
+        }catch (Exception e){
+            throw e;
+        }
+        siddhiDAO.sendEvent(streamName, arrayFormedEvent);
     }
 }
