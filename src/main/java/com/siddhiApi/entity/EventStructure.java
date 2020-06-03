@@ -11,9 +11,16 @@ public class EventStructure {
     private List<String> parametersList;
     private HashMap<String, String> typeOfParameters;
 
-
+    /**
+     * Both of the parameters have a functionality. The map saves the parameter, and the primitive type of
+     * that parameter. The list is used to store how this parameters are sorted on the stream, since it is
+     * needed when we send the event to the input handler.
+     * @param nameInputStream
+     * @param application
+     */
     public EventStructure(String nameInputStream, String application) {
         typeOfParameters = new HashMap<>();
+        parametersList = new ArrayList<>();
         int beginParameter, endParameter, beginTypeParameter, endTypeParameter;
         String parameters = obtainingParameters(application, nameInputStream);
         if (parameters != null){
@@ -26,8 +33,8 @@ public class EventStructure {
                 beginTypeParameter = matcher.start() + 1;
                 endTypeParameter = matcher.end();
                 typeOfParameters.put(parameters.substring(beginParameter, endParameter), parameters.substring(beginTypeParameter, endTypeParameter));
+                parametersList.add(parameters.substring(beginParameter, endParameter));
             }
-            parametersList = new ArrayList<>(typeOfParameters.keySet());
         }
     }
 
