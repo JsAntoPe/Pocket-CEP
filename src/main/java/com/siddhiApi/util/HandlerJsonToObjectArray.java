@@ -1,5 +1,7 @@
 package com.siddhiApi.util;
 
+import com.siddhiApi.entity.CustomEvent;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.regex.Pattern;
 public class HandlerJsonToObjectArray {
 	
 	@SuppressWarnings("serial")
-	Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
+	private static Map<Character, Function<String, Object>> parsers = new HashMap<Character, Function<String, Object>>() {
 		{
 			put('f', Float::parseFloat); // (s) -> Float.parseFloat(s)
 			put('L', Long::parseLong); // (s) -> Long.parseLong(s)
@@ -21,7 +23,7 @@ public class HandlerJsonToObjectArray {
 	
 	
 	
-	public Object[] jsonToObjectArray(String event) {
+	public static Object[] jsonToObjectArray(String event) {
 		List<String> valuesArray = extractValuesFromJsonString(event);
 		Object[] objectArray = new Object[valuesArray.size()];
 		for(int i=0; i<valuesArray.size(); ++i) {
@@ -32,7 +34,7 @@ public class HandlerJsonToObjectArray {
 		
 	}
 	
-	private List<String> extractValuesFromJsonString(String event){
+	private static List<String> extractValuesFromJsonString(String event){
 		int begin, end;
 		List<String> jsonValuesForStream = new ArrayList<>();
 		Pattern pattern = Pattern.compile(":(\"?\\w*\"?[^,{}]*)");
