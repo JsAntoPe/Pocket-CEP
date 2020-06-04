@@ -1,6 +1,10 @@
 package com.siddhiApi.controller;
 
+import com.siddhiApi.dao.StreamStructureDao;
+import com.siddhiApi.entity.CustomEvent;
+import com.siddhiApi.entity.EventStructure;
 import com.siddhiApi.services.applicationService;
+import com.siddhiApi.util.CustomEventToObjectArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +39,8 @@ public class SiddhiAPIController {
 	public String runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
 		logger.debug("Llego a run");
 		logger.info(application.getApplicationCode());
-		String AppName = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
-		return "The app with name " + AppName + " has been initialized";
+		Boolean succesfulRun = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
+		return succesfulRun ? "The app with name " + application.getInputStreamName() + " has been initialized" : "Error in launching application";
 	}
 
 	@GetMapping("/streamsRunning")
@@ -49,18 +53,19 @@ public class SiddhiAPIController {
 			return "No applications running at the moment.";
 	}
 	
-	@PostMapping("/sendEvent/{nameApp}")
+	/*@PostMapping("/sendEvent/{nameApp}")
 	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
 		//logger.info(Arrays.toString(event));
 		applicationService.sendEvent(nameApp, event);
-	}
-
-	/*@PostMapping("/secondSendEvent")
-	public void secondSendEvent(@RequestBody Event event){
-		logger.info("El evento es: " + event.toString());
-		logger.info("El array resultante es: ");
-		for (Object element: event.secondParser()){
-			logger.info("Elemento: " + element);
-		}
 	}*/
+
+	@PostMapping("/secondSendEvent/{streamName}")
+	public void secondSendEvent(@PathVariable String streamName, @RequestBody CustomEvent event){
+		try {
+			applicationService.sendEvent(streamName, event);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("There was a exception: " + e);
+		}
+	}
 }
