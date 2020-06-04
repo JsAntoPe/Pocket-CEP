@@ -37,19 +37,12 @@ public class CustomEventToObjectArray {
         Map<String, Object> eventParameters = customEvent.getEventParameters();
 
         for(String type: eventStructure.getParameters()){
-            logger.info("Type: " + type);
-        }
-
-        for(String type: eventStructure.getParameters()){
-            logger.info("Type: " + type);
-            logger.info("Value: " + eventParameters.get(type).toString());
             if (!(typeOfParameters.get(type)).equals("string")){
                 try{
                     objectList.add(toNumeric(eventParameters.get(type).toString(), typeOfParameters.get(type)));
                 }catch(Exception e){
                     throw e;
                 }
-
             } else {
                 objectList.add(eventParameters.get(type).toString());
             }
