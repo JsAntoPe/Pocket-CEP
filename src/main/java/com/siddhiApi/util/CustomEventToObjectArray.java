@@ -54,6 +54,9 @@ public class CustomEventToObjectArray {
         {
             put("float", Float::parseFloat); // (s) -> Float.parseFloat(s)
             put("long", Long::parseLong); // (s) -> Long.parseLong(s)
+            put("double", Double::parseDouble);
+            put("boolean", Boolean::parseBoolean);
+            put("int", Integer::parseInt);
         }
     };
 
