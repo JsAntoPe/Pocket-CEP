@@ -38,18 +38,6 @@ public class RunSiddhiApplication {
 			}
 		});
 
-		siddhiAppRuntime.addCallback("query1", new QueryCallback() {
-			@Override
-			public void receive(long l, io.siddhi.core.event.Event[] events, io.siddhi.core.event.Event[] events1) {
-				for (io.siddhi.core.event.Event event: events) {
-					logger.info("Llego");
-					logger.info("Evento de salida: " + event.getData(0).toString());
-				}
-				EventPrinter.print(events);
-				EventPrinter.print(events1);
-			}
-		});
-
 		inputHandler = siddhiAppRuntime.getInputHandler(inputStreamName);
 		logger.info("App running");
 	}
