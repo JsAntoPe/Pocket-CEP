@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "1bb93da0-a3b7-45ea-89d8-b9127c2182c2",
+		"name": "ApiRestSiddhiTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SiddhiPageOperations",
+			"item": [
+				{
+					"name": "Run App",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"inputStreamNames\": [\"StockEventStream\", \"StockEventStream2\"],\n    \"outputStreamName\": \"AggregateStockStream\",\n    \"applicationCode\": \"define stream StockEventStream(symbol string, price float, volume long);  @info(name = 'query1') from StockEventStream#window.time(5 sec)  select symbol, sum(price) as price, sum(volume) as volume group by symbol insert into AggregateStockStream;\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/applications/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"applications",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Event for Stock Stream",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{\\\"name\\\": \\\"IBM\\\", \\\"price\\\": 100f, \\\"volume\\\": 100L}\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/applications/sendEvent/StockEventStream",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"applications",
+								"sendEvent",
+								"StockEventStream"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Event for Stock Stream 2 Parser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"symbol\": \"IBM\",\n\t\"price\": \"100f\",\n\t\"volume\": \"100L\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/applications/secondSendEvent/StockEventStream",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"applications",
+								"secondSendEvent",
+								"StockEventStream"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "SiddhiMoreComplexOperation",
+			"item": [
+				{
+					"name": "SourceSinkStream",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"inputStreamName\": \"AirMesurement\",\n    \"outputStreamName\": \"SourceSinkEvent\",\n    \"applicationCode\": \"@App:name(\\\"SourceSinkEventApp\\\") define stream AirMesurement(timestamp double, stationID int, location string, pm2_5 double, pm10 double, o3 double, no2 double, so2 double, co double, booleanTest bool); define stream SourceSinkEvent(Mensaje string); @info(\\\"name=SourceSinkEvent\\\") from AirMesurement select 'Llego dentro del stream. AirMesurement processed correctly.' as Mensaje insert into SourceSinkEvent;\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/applications/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"applications",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendEventAirMesurement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"timestamp\": \"2.0\",\n\t\"stationID\": \"1\",\n\t\"location\": \"Cadiz\",\n\t\"pm2_5\": \"10.0\",\n\t\"pm10\": \"10.0\",\n\t\"o3\": \"10.0\",\n\t\"no2\": \"10.0\",\n\t\"so2\": \"10.0\",\n\t\"co\": \"10.0\",\n\t\"booleanTest\": \"True\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/applications/secondSendEvent/AirMesurement",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"applications",
+								"secondSendEvent",
+								"AirMesurement"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get Streams Running",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/applications/streamsRunning",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"applications",
+						"streamsRunning"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
