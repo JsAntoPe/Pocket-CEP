@@ -52,8 +52,8 @@ public class CustomEventToObjectArray {
 
     private static final Map<String, Function<String, Object>> parsers = new HashMap<String, Function<String, Object>>() {
         {
-            put("float", Float::parseFloat); // (s) -> Float.parseFloat(s)
-            put("long", Long::parseLong); // (s) -> Long.parseLong(s)
+            put("float", (s) -> Float.parseFloat(s.substring(0, s.length()-1))); // (s) -> Float.parseFloat(s)
+            put("long", (s) -> Long.parseLong(s.substring(0, s.length()-1))); // (s) -> Long.parseLong(s)
             put("double", Double::parseDouble);
             put("boolean", Boolean::parseBoolean);
             put("int", Integer::parseInt);
@@ -66,7 +66,7 @@ public class CustomEventToObjectArray {
             throw new Exception("Null is not a valid value");
         }
         try {
-            number = parsers.get(type).apply(strNum.substring(0, strNum.length()-1));
+            number = parsers.get(type).apply(strNum);
         } catch (NumberFormatException nfe) {
             throw new Exception("Cannot transform to number");
         }
