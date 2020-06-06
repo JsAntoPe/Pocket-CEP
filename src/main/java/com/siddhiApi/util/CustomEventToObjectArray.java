@@ -50,6 +50,11 @@ public class CustomEventToObjectArray {
         return objectList.toArray();
     }
 
+    /**
+     * Substring applied on float and long since the number representations of these two usually carry a letter at the
+     * end. The letter should not be processed, since the stream defines the type it is receiving, and therefore,
+     * cast to the type directly. This parse is needed since every datatype is a string in the input.
+     */
     private static final Map<String, Function<String, Object>> parsers = new HashMap<String, Function<String, Object>>() {
         {
             put("float", (s) -> Float.parseFloat(s.substring(0, s.length()-1))); // (s) -> Float.parseFloat(s)
