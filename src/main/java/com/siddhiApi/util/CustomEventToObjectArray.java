@@ -60,7 +60,7 @@ public class CustomEventToObjectArray {
             put("float", (s) -> Float.parseFloat(s.substring(0, s.length()-1))); // (s) -> Float.parseFloat(s)
             put("long", (s) -> Long.parseLong(s.substring(0, s.length()-1))); // (s) -> Long.parseLong(s)
             put("double", Double::parseDouble);
-            put("boolean", Boolean::parseBoolean);
+            put("bool", Boolean::parseBoolean);
             put("int", Integer::parseInt);
         }
     };
