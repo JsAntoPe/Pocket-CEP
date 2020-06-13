@@ -31,6 +31,7 @@ public class RunSiddhiApplication {
 		siddhiAppRuntime.addCallback(outputStreamName, new StreamCallback() {
 			@Override
 			public void receive(io.siddhi.core.event.Event[] events) {
+				EventPrinter.print(events);
 				for (io.siddhi.core.event.Event event: events) {
 					logger.info("Llego");
 					logger.info("Evento de salida: " + event.getData(0).toString());
