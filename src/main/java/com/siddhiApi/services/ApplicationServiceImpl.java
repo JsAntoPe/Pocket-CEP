@@ -1,15 +1,14 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.dao.StreamStructureDao;
+import com.siddhiApi.dao.StreamStructureDAO;
 import com.siddhiApi.entity.CustomEvent;
-import com.siddhiApi.entity.Event;
 import com.siddhiApi.entity.EventStructure;
 import com.siddhiApi.util.CustomEventToObjectArray;
-import com.siddhiApi.util.HandlerJsonToObjectArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,14 +22,14 @@ public class applicationServiceImpl implements applicationService{
     private SiddhiDAO siddhiDAO;
 
     @Autowired
-    private StreamStructureDao streamStructureDao;
+    private StreamStructureDAO streamStructureDAO;
 
     @Override
     public Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
         Boolean successfulRun = siddhiDAO.runApp(streamImplementation, inputStreamName, outputStreamName);
         logger.info("SuccesfulRun: " + successfulRun);
         if (successfulRun){
-            streamStructureDao.createStructure(inputStreamName, streamImplementation);
+            streamStructureDAO.createStructure(inputStreamName, streamImplementation);
         }
         return successfulRun;
     }
@@ -43,12 +42,12 @@ public class applicationServiceImpl implements applicationService{
     @Override
     public void stopApp(String streamName) {
         siddhiDAO.stopApp(streamName);
-        streamStructureDao.removeStructure(streamName);
+        streamStructureDAO.removeStructure(streamName);
     }
 
     @Override
     public void sendEvent(String streamName, CustomEvent event) throws Exception{
-        EventStructure eventStructure = streamStructureDao.getStructure(streamName);
+        EventStructure eventStructure = streamStructureDAO.getStructure(streamName);
         Object[] arrayFormedEvent;
         try{
             arrayFormedEvent = new CustomEventToObjectArray().parseCustomEventToObjectArray(event, eventStructure);
