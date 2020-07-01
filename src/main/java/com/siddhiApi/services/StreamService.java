@@ -1,10 +1,14 @@
 package com.siddhiApi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.siddhiApi.entity.Stream;
-import net.minidev.json.JSONObject;
+import org.everit.json.schema.ValidationException;
+
 
 public interface StreamService {
-    public void createStream(Stream stream);
+    void createStream(Stream stream);
 
-    public Stream getStream(String stream);
+    Stream getStream(String stream);
+
+    void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException;
 }
