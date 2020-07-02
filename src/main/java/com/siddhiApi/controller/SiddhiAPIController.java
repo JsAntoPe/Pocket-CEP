@@ -1,49 +1,41 @@
 package com.siddhiApi.controller;
 
-import com.siddhiApi.dao.StreamStructureDao;
+import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.CustomEvent;
-import com.siddhiApi.entity.EventStructure;
-import com.siddhiApi.services.applicationService;
-import com.siddhiApi.util.CustomEventToObjectArray;
+import com.siddhiApi.services.ApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.Event;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/applications")
+@RequestMapping(value = "/api/v1/applications")
 public class SiddhiAPIController {
 
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
 
 	@Autowired
-	private final applicationService applicationService;
+	private final ApplicationService applicationService;
 
-	public SiddhiAPIController(applicationService applicationService) {
+	public SiddhiAPIController(ApplicationService applicationService) {
 		this.applicationService = applicationService;
 	}
 
-	@GetMapping("/hello")
-	public String hello(){
-		String s = "Hello world";
-		return s;
-	}
-
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/run")
-	public String runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
-		logger.debug("Llego a run");
-		logger.info(application.getApplicationCode());
-		Boolean succesfulRun = applicationService.runApp(application.getApplicationCode(), application.getInputStreamName(), application.getOutputStreamName());
-		return succesfulRun ? "The app with name " + application.getInputStreamName() + " has been initialized" : "Error in launching application";
+	public void runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
+		try {
+			applicationService.runApp(application);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An application with that name already exists.", e);
+		}
 	}
 
-	@GetMapping("/streamsRunning")
+	/*@GetMapping("/streamsRunning")
 	public String getStreamsRunning(){
 		List<String> appsRunning;
 		appsRunning = applicationService.getApplicationsRunning();
@@ -51,7 +43,7 @@ public class SiddhiAPIController {
 			return appsRunning.stream().reduce("Apps running: ", (s1, s2) -> s1 + "\n" + s2);
 		else
 			return "No applications running at the moment.";
-	}
+	}*/
 	
 	/*@PostMapping("/sendEvent/{nameApp}")
 	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
@@ -59,7 +51,7 @@ public class SiddhiAPIController {
 		applicationService.sendEvent(nameApp, event);
 	}*/
 
-	@PostMapping("/secondSendEvent/{streamName}")
+	/*@PostMapping("/secondSendEvent/{streamName}")
 	public void secondSendEvent(@PathVariable String streamName, @RequestBody CustomEvent event){
 		try {
 			applicationService.sendEvent(streamName, event);
@@ -67,5 +59,5 @@ public class SiddhiAPIController {
 			e.printStackTrace();
 			logger.info("There was a exception: " + e);
 		}
-	}
+	}*/
 }

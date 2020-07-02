@@ -1,12 +1,14 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.dao.StreamStructureDao;
+import com.siddhiApi.dao.StreamStructureDAO;
+import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.CustomEvent;
-import com.siddhiApi.entity.Event;
 import com.siddhiApi.entity.EventStructure;
+import com.siddhiApi.util.ApplicationCodeGeneratorMediator;
 import com.siddhiApi.util.CustomEventToObjectArray;
-import com.siddhiApi.util.HandlerJsonToObjectArray;
+import com.siddhiApi.util.StreamGenerator;
+import com.siddhiApi.util.StreamGeneratorSiddhi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +17,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class applicationServiceImpl implements applicationService{
+public class ApplicationServiceImpl implements ApplicationService {
 
-    private Logger logger = LoggerFactory.getLogger(applicationServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Autowired
     private SiddhiDAO siddhiDAO;
 
     @Autowired
-    private StreamStructureDao streamStructureDao;
+    private StreamStructureDAO streamStructureDAO;
 
     @Override
-    public Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
-        Boolean successfulRun = siddhiDAO.runApp(streamImplementation, inputStreamName, outputStreamName);
-        logger.info("SuccesfulRun: " + successfulRun);
-        if (successfulRun){
-            streamStructureDao.createStructure(inputStreamName, streamImplementation);
-        }
-        return successfulRun;
+    public void runApp(Application application) throws Exception {
+        logger.info(application.getApplicationCode());
+        application.setApplicationCode(ApplicationCodeGeneratorMediator.getFullApplicationCode(application));
+        siddhiDAO.runApp(application);
     }
 
     @Override
@@ -43,12 +42,12 @@ public class applicationServiceImpl implements applicationService{
     @Override
     public void stopApp(String streamName) {
         siddhiDAO.stopApp(streamName);
-        streamStructureDao.removeStructure(streamName);
+        streamStructureDAO.removeStructure(streamName);
     }
 
-    @Override
+    /*@Override
     public void sendEvent(String streamName, CustomEvent event) throws Exception{
-        EventStructure eventStructure = streamStructureDao.getStructure(streamName);
+        EventStructure eventStructure = streamStructureDAO.getStructure(streamName);
         Object[] arrayFormedEvent;
         try{
             arrayFormedEvent = new CustomEventToObjectArray().parseCustomEventToObjectArray(event, eventStructure);
@@ -56,5 +55,5 @@ public class applicationServiceImpl implements applicationService{
             throw e;
         }
         siddhiDAO.sendEvent(streamName, arrayFormedEvent);
-    }
+    }*/
 }
