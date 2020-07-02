@@ -1,7 +1,6 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.dao.StreamStructureDAO;
 import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.entity.EventStructure;
@@ -24,8 +23,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private SiddhiDAO siddhiDAO;
 
-    @Autowired
-    private StreamStructureDAO streamStructureDAO;
+    /*@Autowired
+    private StreamStructureDAO streamStructureDAO;*/
 
     @Override
     public void runApp(Application application) throws Exception {
@@ -40,9 +39,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void stopApp(String streamName) {
-        siddhiDAO.stopApp(streamName);
-        streamStructureDAO.removeStructure(streamName);
+    public void stopApp(String appName) {
+        siddhiDAO.stopApp(appName);
+        //streamStructureDAO.removeStructure(streamName);
     }
 
     /*@Override

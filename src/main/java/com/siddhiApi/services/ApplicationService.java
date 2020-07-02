@@ -10,7 +10,7 @@ public interface ApplicationService {
 
     List<String> getApplicationsRunning();
 
-    void stopApp(String streamName);
+    void stopApp(String appName);
 
     //void sendEvent(String streamName, CustomEvent event) throws Exception;
 }
