@@ -1,7 +1,6 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.CustomEvent;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.siddhiApi.controller;
 
 import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.services.ApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/applications")

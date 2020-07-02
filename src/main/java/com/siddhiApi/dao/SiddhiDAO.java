@@ -1,7 +1,6 @@
 package com.siddhiApi.dao;
 
 import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.Event;
 
 import java.util.List;
 

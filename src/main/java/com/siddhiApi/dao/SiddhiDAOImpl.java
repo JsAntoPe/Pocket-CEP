@@ -3,8 +3,6 @@ package com.siddhiApi.dao;
 
 import com.siddhiApi.SiddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.Event;
-import com.siddhiApi.util.Parsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

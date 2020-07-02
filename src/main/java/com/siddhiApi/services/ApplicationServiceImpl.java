@@ -2,12 +2,7 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.entity.Application;
-import com.siddhiApi.entity.CustomEvent;
-import com.siddhiApi.entity.EventStructure;
 import com.siddhiApi.util.ApplicationCodeGeneratorMediator;
-import com.siddhiApi.util.CustomEventToObjectArray;
-import com.siddhiApi.util.StreamGenerator;
-import com.siddhiApi.util.StreamGeneratorSiddhi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
