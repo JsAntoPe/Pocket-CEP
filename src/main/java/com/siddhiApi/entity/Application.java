@@ -4,9 +4,19 @@ import java.util.List;
 
 public class Application {
 	private String applicationName, outputStreamName, applicationCode;
-	private List<String> inputStreamNames;
 
-	public Application(String applicationName, List<String> inputStreamNames, String outputStreamName, String applicationCode) {
+	public String[] getInputStreamNames() {
+		return inputStreamNames;
+	}
+
+	public void setInputStreamNames(String[] inputStreamNames) {
+		this.inputStreamNames = inputStreamNames;
+	}
+
+	//private List<String> inputStreamNames;
+	private String[] inputStreamNames;
+
+	public Application(String applicationName, /*List<String>*/ String[] inputStreamNames, String outputStreamName, String applicationCode) {
 		this.applicationName = applicationName;
 		this.inputStreamNames = inputStreamNames;
 		this.outputStreamName = outputStreamName;
@@ -37,11 +47,11 @@ public class Application {
 		this.applicationCode = applicationCode;
 	}
 
-	public List<String> getInputStreamNames() {
+	/*public List<String> getInputStreamNames() {
 		return inputStreamNames;
 	}
 
 	public void setInputStreamNames(List<String> inputStreamNames) {
 		this.inputStreamNames = inputStreamNames;
-	}
+	}*/
 }
