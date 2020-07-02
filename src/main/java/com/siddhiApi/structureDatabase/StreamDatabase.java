@@ -1,7 +1,6 @@
 package com.siddhiApi.structureDatabase;
 
 import com.siddhiApi.entity.Stream;
-
 import java.util.HashMap;
 import java.util.Map;
 
