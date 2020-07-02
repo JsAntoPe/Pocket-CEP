@@ -2,9 +2,13 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.dao.StreamStructureDAO;
+import com.siddhiApi.entity.Application;
 import com.siddhiApi.entity.CustomEvent;
 import com.siddhiApi.entity.EventStructure;
+import com.siddhiApi.util.ApplicationCodeGeneratorMediator;
 import com.siddhiApi.util.CustomEventToObjectArray;
+import com.siddhiApi.util.StreamGenerator;
+import com.siddhiApi.util.StreamGeneratorSiddhi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +28,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     private StreamStructureDAO streamStructureDAO;
 
     @Override
-    public Boolean runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
-        Boolean successfulRun = siddhiDAO.runApp(streamImplementation, inputStreamName, outputStreamName);
-        logger.info("SuccesfulRun: " + successfulRun);
-        if (successfulRun){
-            streamStructureDAO.createStructure(inputStreamName, streamImplementation);
-        }
-        return successfulRun;
+    public void runApp(Application application) throws Exception {
+        logger.info(application.getApplicationCode());
+        application.setApplicationCode(ApplicationCodeGeneratorMediator.getFullApplicationCode(application));
+        siddhiDAO.runApp(application);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         streamStructureDAO.removeStructure(streamName);
     }
 
-    @Override
+    /*@Override
     public void sendEvent(String streamName, CustomEvent event) throws Exception{
         EventStructure eventStructure = streamStructureDAO.getStructure(streamName);
         Object[] arrayFormedEvent;
@@ -54,5 +55,5 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw e;
         }
         siddhiDAO.sendEvent(streamName, arrayFormedEvent);
-    }
+    }*/
 }
