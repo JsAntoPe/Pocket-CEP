@@ -12,14 +12,17 @@ import org.slf4j.LoggerFactory;
 
 import sun.rmi.runtime.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RunSiddhiApplication {
 	static Logger logger = LoggerFactory.getLogger(RunSiddhiApplication.class);
 
 	private static SiddhiManager siddhiManager = new SiddhiManager();
 	private SiddhiAppRuntime siddhiAppRuntime;
-	InputHandler inputHandler;
+	private Map<String, InputHandler> inputHandlerMap = new HashMap<String, InputHandler>();
 
-	public void runApp(String streamImplementation, String inputStreamName, String outputStreamName) {
+	public void runApp(String[] inputStreamNames, String outputStreamName, String streamImplementation) {
 		//Siddhi Application
 		String siddhiApp = streamImplementation;
 
@@ -32,14 +35,12 @@ public class RunSiddhiApplication {
 			@Override
 			public void receive(io.siddhi.core.event.Event[] events) {
 				EventPrinter.print(events);
-				for (io.siddhi.core.event.Event event: events) {
-					logger.info("Llego");
-					logger.info("Evento de salida: " + event.getData(0).toString());
-				}
 			}
 		});
 
-		inputHandler = siddhiAppRuntime.getInputHandler(inputStreamName);
+		for(String inputStreamName: inputStreamNames){
+			inputHandlerMap.put(inputStreamName, siddhiAppRuntime.getInputHandler(inputStreamName));
+		}
 		logger.info("App running");
 	}
 
@@ -47,12 +48,12 @@ public class RunSiddhiApplication {
 		siddhiAppRuntime.shutdown();
 	}
 
-	public void sendEvent(Object[] event) {
+	public void sendEvent(String stream, Object[] event) {
 		for(Object object: event){
-			logger.info("Clase del objeto: " + object.getClass().toString());
+			logger.info("Object class: " + object.getClass().toString());
 		}
 		try {
-			inputHandler.send(event);
+			inputHandlerMap.get(stream).send(event);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
