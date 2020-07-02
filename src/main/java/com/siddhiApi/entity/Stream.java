@@ -8,7 +8,6 @@ public class Stream {
     private String streamID;
     private JSONObject jsonSchema;
 
-
     public Stream(String streamID, Object jsonSchema) {
         this.streamID = streamID;
         ObjectMapper mapper = new ObjectMapper();
