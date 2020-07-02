@@ -11,12 +11,12 @@ public class StreamDAOImpl implements StreamDAO{
     private final StreamDatabase streamDatabase = StreamDatabase.getStreamDatabase();
 
     @Override
-    public void createSchema(Stream stream) {
+    public void createStream(Stream stream) {
         streamDatabase.addStream(stream);
     }
 
     @Override
-    public Stream getSchema(String stream) {
+    public Stream getStream(String stream) {
         return streamDatabase.getStream(stream);
     }
 }

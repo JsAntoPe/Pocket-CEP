@@ -3,7 +3,7 @@ package com.siddhiApi.dao;
 import com.siddhiApi.entity.Stream;
 
 public interface StreamDAO {
-    void createSchema(Stream stream);
+    void createStream(Stream stream);
 
-    Stream getSchema(String stream);
+    Stream getStream(String stream);
 }
