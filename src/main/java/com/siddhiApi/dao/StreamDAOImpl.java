@@ -1,7 +1,7 @@
 package com.siddhiApi.dao;
 
 import com.siddhiApi.entity.Stream;
-import com.siddhiApi.structureDatabase.StreamDatabase;
+import com.siddhiApi.inMemoryStorage.StreamDatabase;
 
 import org.springframework.stereotype.Service;
 

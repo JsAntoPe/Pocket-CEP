@@ -1,4 +1,4 @@
-package com.siddhiApi.structureDatabase;
+package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Stream;
 import java.util.HashMap;
