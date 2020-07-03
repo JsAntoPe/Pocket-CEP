@@ -1,7 +1,7 @@
 package com.siddhiApi.dao;
 
 
-import com.siddhiApi.SiddhiApplicationManager.SiddhiApplicationManager;
+import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

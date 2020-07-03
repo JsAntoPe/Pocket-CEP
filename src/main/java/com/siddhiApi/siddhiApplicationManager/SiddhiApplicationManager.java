@@ -1,4 +1,4 @@
-package com.siddhiApi.SiddhiApplicationManager;
+package com.siddhiApi.siddhiApplicationManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
