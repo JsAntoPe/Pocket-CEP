@@ -2,11 +2,9 @@ package com.siddhiApi.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.dao.SiddhiDAOImpl;
-import com.siddhiApi.dao.StreamDAOImpl;
+import com.siddhiApi.dao.*;
 import com.siddhiApi.entity.Stream;
-import com.siddhiApi.dao.StreamDAO;
+import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.util.Parsers;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONObject;
@@ -25,24 +23,27 @@ public class StreamServiceImpl implements StreamService{
     Logger logger = LoggerFactory.getLogger(StreamServiceImpl.class);
 
     @Autowired
-    private final StreamDAO streamDao = new StreamDAOImpl();
+    private final SubscriptionDAO subscriptionDAO = new SubscriptionDAOImpl();
+
+    @Autowired
+    private final StreamDAO streamDAO = new StreamDAOImpl();
 
     @Autowired
     private final SiddhiDAO siddhiDAO = new SiddhiDAOImpl();
 
     @Override
     public void createStream(Stream stream) {
-        streamDao.createStream(stream);
+        streamDAO.createStream(stream);
     }
 
     @Override
     public Stream getStream(String stream) {
-        return streamDao.getStream(stream);
+        return streamDAO.getStream(stream);
     }
 
     @Override
     public void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException {
-        JSONObject streamSchema = streamDao.getStream(stream).getJsonSchema();
+        JSONObject streamSchema = streamDAO.getStream(stream).getJsonSchema();
 
         ObjectMapper mapper = new ObjectMapper();
         JSONObject eventSchema = new JSONObject(mapper.writeValueAsString(event));
@@ -56,4 +57,15 @@ public class StreamServiceImpl implements StreamService{
         }
         siddhiDAO.sendEvent(stream, eventParsed);
     }
+
+    public String subscribe(String streamID, Subscription subscription){
+        return subscriptionDAO.subscribe(streamID, subscription);
+    }
+
+    @Override
+    public String getStreamSubscriptions(String streamID) {
+        return subscriptionDAO.getSubscriptions(streamID);
+    }
+
+
 }

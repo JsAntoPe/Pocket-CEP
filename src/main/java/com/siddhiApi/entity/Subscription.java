@@ -34,4 +34,13 @@ public class Subscription {
     public void setMethod(String method) {
         this.method = method;
     }
+
+
+    @Override
+    public String toString() {
+        return "Subscription: " +
+                "identifier= '" + identifier + '\'' +
+                ", webhook= '" + webhook + '\'' +
+                ", method= '" + method + '\'';
+    }
 }

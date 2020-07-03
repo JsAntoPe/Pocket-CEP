@@ -3,6 +3,7 @@ package com.siddhiApi.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.siddhiApi.entity.Stream;
+import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.services.StreamService;
 
 import org.everit.json.schema.ValidationException;
@@ -36,15 +37,26 @@ public class StreamsController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{stream}/events")
-    public void sendEvent(@PathVariable String stream, @RequestBody Object event){
+    @PostMapping(value = "/{streamID}/events")
+    public void sendEvent(@PathVariable String streamID, @RequestBody Object event){
         logger.info("Printing event schema: " + event);
         try {
-            streamService.sendEvent(stream, event);
+            streamService.sendEvent(streamID, event);
         } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Incorrect JSON format", e);
         } catch (ValidationException ve){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The event sent does not match with the stream structure.", ve);
         }
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/{streamID}/subscriptions")
+    public String subscribe(@PathVariable String streamID, @RequestBody Subscription subscription){
+        return streamService.subscribe(streamID, subscription);
+    }
+
+    @GetMapping(value = "/{streamID}/subscriptions")
+    public String getStreamSubscriptions(@PathVariable String streamID){
+        return streamService.getStreamSubscriptions(streamID);
     }
 }
