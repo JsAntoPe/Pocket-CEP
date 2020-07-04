@@ -41,7 +41,7 @@ public class ApplicationCodeChecker {
                 int firstMatch = matcher.start();
                 propertyFirstAppearancePriorityQueue.add(new PropertyFirstAppearance(property, firstMatch));
             } else {
-                throw new Exception("The property does not appear on the select statement.");
+                throw new Exception("The property" + property + "does not appear on the select statement.");
             }
         }
 
