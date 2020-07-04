@@ -1,5 +1,6 @@
 package com.siddhiApi.siddhiApplicationManager;
 
+import com.siddhiApi.webhook.Webhook;
 import io.siddhi.core.SiddhiAppRuntime;
 import io.siddhi.core.SiddhiManager;
 import io.siddhi.core.stream.input.InputHandler;
@@ -31,6 +32,10 @@ public class RunSiddhiApplication {
 			@Override
 			public void receive(io.siddhi.core.event.Event[] events) {
 				EventPrinter.print(events);
+				//new Webhook(events)
+				for (io.siddhi.core.event.Event event: events){
+					logger.info("Event normal: " + event);
+				}
 			}
 		});
 
