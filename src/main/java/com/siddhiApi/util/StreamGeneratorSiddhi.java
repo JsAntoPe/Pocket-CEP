@@ -17,16 +17,22 @@ public class StreamGeneratorSiddhi implements StreamGenerator{
             put("number", "double");
             put("string", "string");
             put("integer", "int");
+            put("boolean", "boolean");
         }
     };
 
     @Override
-    public String generateCode(Stream stream) {
+    public String generateCodeInputStream(Stream stream) {
         String codeStream = "define stream " + stream.getStreamID() + "(";
         codeStream += getAllSiddhiProperties(stream.getJsonSchema().get("properties").toString());
         codeStream += ");";
 
         return codeStream;
+    }
+
+    @Override
+    public String generateCodeOutputStream(Stream stream) {
+        return "insert into " + stream.getStreamID() + ";";
     }
 
     private String getAllSiddhiProperties(String propertiesInJsonSchema){
