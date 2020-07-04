@@ -1,4 +1,4 @@
-package com.siddhiApi.entity.auxiliarEntities;
+package com.siddhiApi.util;
 
 public class PropertyFirstAppearance implements Comparable<PropertyFirstAppearance>{
     private String property;
