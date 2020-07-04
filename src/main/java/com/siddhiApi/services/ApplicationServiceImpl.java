@@ -2,6 +2,7 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.entity.Application;
+import com.siddhiApi.util.ApplicationCodeChecker;
 import com.siddhiApi.util.ApplicationCodeGeneratorMediator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void runApp(Application application) throws Exception {
         logger.info(application.getApplicationCode());
         application.setApplicationCode(ApplicationCodeGeneratorMediator.getFullApplicationCode(application));
+        ApplicationCodeChecker.outputStreamCheck(application);
         siddhiDAO.runApp(application);
     }
 
