@@ -19,10 +19,10 @@ public class ApplicationCodeGeneratorMediator {
         for(String inputStreamName: application.getInputStreamNames()){
             logger.info("InputStreamName: " + inputStreamName);
             logger.info("InputStreamName from stream itself: " + streamService.getStream(inputStreamName).getStreamID());
-            applicationCode += streamGenerator.generateCode(streamService.getStream(inputStreamName));
+            applicationCode += streamGenerator.generateCodeInputStream(streamService.getStream(inputStreamName));
         }
         applicationCode += application.getApplicationCode();
-        //applicationCode += streamGenerator.generateCode(streamService.getStream(application.getOutputStreamName()));
+        applicationCode += streamGenerator.generateCodeOutputStream(streamService.getStream(application.getOutputStreamName()));
 
         logger.info("Application code: " + applicationCode);
         return applicationCode;
