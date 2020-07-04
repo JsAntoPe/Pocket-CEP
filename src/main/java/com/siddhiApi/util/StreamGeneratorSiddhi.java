@@ -32,7 +32,7 @@ public class StreamGeneratorSiddhi implements StreamGenerator{
 
     @Override
     public String generateCodeOutputStream(Stream stream) {
-        return "insert into " + stream.getStreamID() + ";";
+        return " insert into " + stream.getStreamID() + ";";
     }
 
     private String getAllSiddhiProperties(String propertiesInJsonSchema){
