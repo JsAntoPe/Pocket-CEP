@@ -33,12 +33,14 @@ public class ApplicationCodeChecker {
         PriorityQueue<PropertyFirstAppearance> propertyFirstAppearancePriorityQueue = new PriorityQueue<>();
 
         JSONObject propertiesJSON = new JSONObject(stream.getJsonSchema().get("properties").toString());
+        Matcher matcher;
         for (String property : propertiesJSON.keySet()){
-            Matcher matcher = Pattern.compile("select.*(" + property +").*" + lastControlStatement)
+            matcher = Pattern.compile("select.*(" + property +").*" + lastControlStatement)
                     .matcher(application.getApplicationCode());
             logger.info("Pattern: " + "select.*(" + property +").*" + lastControlStatement);
             if(matcher.find()){
-                int firstMatch = matcher.start();
+                logger.info("What matcher has found: " + application.getApplicationCode().substring(183));
+                int firstMatch = matcher.start(1); //By writing 1 here, we achieve that JAVA only looks for what it is between the parenthesis.
                 propertyFirstAppearancePriorityQueue.add(new PropertyFirstAppearance(property, firstMatch));
             } else {
                 throw new Exception("The property " + property + " does not appear on the select statement.");
@@ -46,11 +48,14 @@ public class ApplicationCodeChecker {
         }
 
         String[] propertiesSorted = new String[propertyFirstAppearancePriorityQueue.size()];
+        logger.info("Priority Queue Size: " + propertyFirstAppearancePriorityQueue.size());
         int i = 0;
         for (PropertyFirstAppearance property: propertyFirstAppearancePriorityQueue){
             logger.info("Property sorted after priority queue: " + property.getProperty());
+            logger.info("Property value: " + property.getFirstAppearance());
             propertiesSorted[i] = property.getProperty();
+            ++i;
         }
-        propertyOrderedDatabase.addOutputStreamPropertiesOrdered(application.getApplicationName(), propertiesSorted);
+        propertyOrderedDatabase.addOutputStreamPropertiesOrdered(application.getOutputStreamName(), propertiesSorted);
     }
 }
