@@ -58,6 +58,6 @@ public class StreamsController {
 
     @GetMapping(value = "/{streamID}/subscriptions")
     public String getStreamSubscriptions(@PathVariable String streamID){
-        return streamService.getStreamSubscriptions(streamID);
+        return streamService.getStreamSubscriptionsToString(streamID);
     }
 }
