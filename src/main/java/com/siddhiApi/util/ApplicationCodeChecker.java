@@ -49,10 +49,12 @@ public class ApplicationCodeChecker {
 
         String[] propertiesSorted = new String[propertyFirstAppearancePriorityQueue.size()];
         logger.info("Priority Queue Size: " + propertyFirstAppearancePriorityQueue.size());
+
         int i = 0;
-        for (PropertyFirstAppearance property: propertyFirstAppearancePriorityQueue){
-            logger.info("Property sorted after priority queue: " + property.getProperty());
-            logger.info("Property value: " + property.getFirstAppearance());
+        while(propertyFirstAppearancePriorityQueue.size() != 0){
+            PropertyFirstAppearance property = propertyFirstAppearancePriorityQueue.poll();
+            logger.info("Property extracted firstAppearance: " + property.getFirstAppearance());
+            logger.info("Property value: " + property.getProperty());
             propertiesSorted[i] = property.getProperty();
             ++i;
         }
