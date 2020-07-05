@@ -1,6 +1,8 @@
 package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.NotFoundException;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import java.util.*;
 
@@ -26,12 +28,12 @@ public class SubscriptionsDatabase {
         streamSubscriptions.get(streamID).add(subscription);
     }
 
-    public void removeStreamSubscription(String streamID, Subscription subscription) throws Exception {
+    public void removeStreamSubscription(String streamID, Subscription subscription) throws NotFoundException {
         if(!streamSubscriptions.containsKey(streamID)){
-            throw new Exception("The stream does not have any subscriptions.");
+            throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
         }
         if(!streamSubscriptions.get(streamID).contains(subscription)){
-            throw new Exception("This stream does not have this subscriber.");
+            throw new NotFoundException("This stream does not have this subscriber.");
         }
         streamSubscriptions.get(streamID).remove(subscription);
         if(streamSubscriptions.get(streamID).size() == 0){
