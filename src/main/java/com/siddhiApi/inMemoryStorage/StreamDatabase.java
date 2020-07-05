@@ -1,6 +1,8 @@
 package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Stream;
+import com.siddhiApi.exceptions.NotFoundException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +37,10 @@ public class StreamDatabase {
         streams.put(stream.getStreamID(), stream);
     }
 
-    public Stream getStream(String name) {
+    public Stream getStream(String name) throws NotFoundException {
+        if (!streams.containsKey(name)){
+            throw new NotFoundException("A stream with that ID does not exist.");
+        }
         return streams.get(name);
     }
 }

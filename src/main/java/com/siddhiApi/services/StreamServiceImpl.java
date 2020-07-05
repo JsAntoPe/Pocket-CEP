@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siddhiApi.dao.*;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.util.Parsers;
 import com.siddhiApi.webhook.WebhookMediator;
 import org.everit.json.schema.ValidationException;
@@ -40,12 +41,12 @@ public class StreamServiceImpl implements StreamService{
     }
 
     @Override
-    public Stream getStream(String stream) {
+    public Stream getStream(String stream) throws NotFoundException {
         return streamDAO.getStream(stream);
     }
 
     @Override
-    public void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException {
+    public void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException, NotFoundException {
         JSONObject streamSchema = streamDAO.getStream(stream).getJsonSchema();
 
         ObjectMapper mapper = new ObjectMapper();

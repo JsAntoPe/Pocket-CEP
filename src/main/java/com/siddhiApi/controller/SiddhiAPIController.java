@@ -24,9 +24,13 @@ public class SiddhiAPIController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/run")
-	public void runApp(@RequestBody Application application) throws Exception { //HttpEntity<String> instead of String
+	public void runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
 		//try {
+		try {
 			applicationService.runApp(application);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		//} /*catch (Exception e) {
 			//throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An application with that name already exists.", e);
 		//}*/

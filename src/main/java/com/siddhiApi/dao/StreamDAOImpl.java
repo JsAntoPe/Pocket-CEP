@@ -1,6 +1,7 @@
 package com.siddhiApi.dao;
 
 import com.siddhiApi.entity.Stream;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.inMemoryStorage.StreamDatabase;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class StreamDAOImpl implements StreamDAO{
     }
 
     @Override
-    public Stream getStream(String stream) {
+    public Stream getStream(String stream) throws NotFoundException {
         return streamDatabase.getStream(stream);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.StreamService;
 
 import org.everit.json.schema.ValidationException;
@@ -34,7 +35,11 @@ public class StreamsController {
 
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getStream(@PathVariable String name){
-        return streamService.getStream(name).getJsonSchema().toString();
+        try {
+            return streamService.getStream(name).getJsonSchema().toString();
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
+        }
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,6 +52,8 @@ public class StreamsController {
             throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Incorrect JSON format", e);
         } catch (ValidationException ve){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The event sent does not match with the stream structure.", ve);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
         }
     }
 
