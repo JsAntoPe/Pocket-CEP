@@ -1,10 +1,15 @@
 package com.siddhiApi.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class PropertyOrderedDatabase {
-    private Map<String, String[]> outputStreamPropertiesOrdered;
+    Logger logger = LoggerFactory.getLogger(PropertyOrderedDatabase.class);
+
+    private final Map<String, String[]> outputStreamPropertiesOrdered;
     private static PropertyOrderedDatabase propertyOrderedDatabase;
 
     private PropertyOrderedDatabase() {
@@ -19,10 +24,18 @@ public class PropertyOrderedDatabase {
     }
 
     public void addOutputStreamPropertiesOrdered(String outputStreamName, String[] propertiesOrdered){
+        logger.info("Name of the output stream: " + outputStreamName);
+        logger.info("Second property: " + propertiesOrdered[1]);
         outputStreamPropertiesOrdered.put(outputStreamName, propertiesOrdered);
     }
 
     public void removeOutputStreamPropertiesOrdered(String outputStreamName){
         outputStreamPropertiesOrdered.remove(outputStreamName);
+    }
+
+    public String[] getPropertiesOrdered(String outputStreamName){
+        logger.info("Name of the output stream: " + outputStreamName);
+        logger.info("First property: " + outputStreamPropertiesOrdered.get(outputStreamName)[0]);
+        return outputStreamPropertiesOrdered.get(outputStreamName);
     }
 }
