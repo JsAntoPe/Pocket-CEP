@@ -28,7 +28,6 @@ public class SiddhiDAOImpl implements SiddhiDAO{
 		}
 		logger.info("Application Output Stream: " + application.getOutputStreamName());
 		logger.info("Application Code: " + application.getApplicationCode());
-
 	}
 
 	@Override
