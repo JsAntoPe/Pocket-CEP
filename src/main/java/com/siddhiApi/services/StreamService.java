@@ -5,6 +5,8 @@ import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import org.everit.json.schema.ValidationException;
 
+import java.util.List;
+
 
 public interface StreamService {
     void createStream(Stream stream);
@@ -15,5 +17,7 @@ public interface StreamService {
 
     String subscribe(String streamID, Subscription subscription);
 
-    String getStreamSubscriptions(String streamID);
+    List<Subscription> getSubscriptions(String streamID);
+
+    String getStreamSubscriptionsToString(String streamID);
 }

@@ -6,6 +6,7 @@ import com.siddhiApi.dao.*;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.util.Parsers;
+import com.siddhiApi.webhook.WebhookMediator;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONObject;
 import org.everit.json.schema.Schema;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -56,6 +59,10 @@ public class StreamServiceImpl implements StreamService{
             logger.info("Property on event already parsed: " + object);
         }
         siddhiDAO.sendEvent(stream, eventParsed);
+        List<Subscription> subscriptions = this.getSubscriptions(stream);
+        if (subscriptions != null){
+            WebhookMediator.webhookFromSubscription(subscriptions, event);
+        }
     }
 
     public String subscribe(String streamID, Subscription subscription){
@@ -63,9 +70,12 @@ public class StreamServiceImpl implements StreamService{
     }
 
     @Override
-    public String getStreamSubscriptions(String streamID) {
+    public List<Subscription> getSubscriptions(String streamID) {
         return subscriptionDAO.getSubscriptions(streamID);
     }
 
-
+    @Override
+    public String getStreamSubscriptionsToString(String streamID) {
+        return subscriptionDAO.getSubscriptionsToString(streamID);
+    }
 }
