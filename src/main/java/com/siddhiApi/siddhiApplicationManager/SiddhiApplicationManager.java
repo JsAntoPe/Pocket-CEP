@@ -1,11 +1,15 @@
 package com.siddhiApi.siddhiApplicationManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SiddhiApplicationManager {
+	static Logger logger = LoggerFactory.getLogger(SiddhiApplicationManager.class);
 	private static final Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	private static final Map<String, List<String>> inputStreamInApplication = new HashMap<>();
 
@@ -42,8 +46,10 @@ public class SiddhiApplicationManager {
 	
 	public static void sendEvent(String streamName, Object[] event) {
 		List<String> applicationsListContainsStream = inputStreamInApplication.get(streamName);
-		for (String application:applicationsListContainsStream){
-			applications.get(application).sendEvent(streamName, event);
+		if(applicationsListContainsStream != null){
+			for (String application:applicationsListContainsStream){
+				applications.get(application).sendEvent(streamName, event);
+			}
 		}
 	}
 
