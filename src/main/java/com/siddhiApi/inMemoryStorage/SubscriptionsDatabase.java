@@ -48,13 +48,17 @@ public class SubscriptionsDatabase {
     }
 
     public List<Subscription> getSubscriptions(String streamID){
-        return streamSubscriptions.get(streamID);
+        return streamSubscriptions.getOrDefault(streamID, null);
     }
 
     public String getSubscriptionsToString(String streamID) {
+        List<Subscription> subscriptionsToPrint = getSubscriptions(streamID);
+        if (subscriptionsToPrint == null){
+            return "No subscriptions";
+        }
         String subscriptions = "For the stream " + streamID + ", the subscriptions are:\n";
 
-        for(Subscription subscription: getSubscriptions(streamID)){
+        for(Subscription subscription: subscriptionsToPrint){
             subscriptions += "\t" + subscription.toString() + "\n";
         }
 
