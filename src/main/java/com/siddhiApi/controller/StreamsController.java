@@ -26,6 +26,7 @@ public class StreamsController {
     @Autowired
     private StreamService streamService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public void createStream(@RequestBody Stream stream){
         streamService.createStream(stream);
