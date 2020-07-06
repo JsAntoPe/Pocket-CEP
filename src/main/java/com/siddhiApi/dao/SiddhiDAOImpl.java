@@ -1,7 +1,7 @@
 package com.siddhiApi.dao;
 
 
-import com.siddhiApi.exceptions.DuplicatedPattern;
+import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ public class SiddhiDAOImpl implements SiddhiDAO{
 
 	Logger logger = LoggerFactory.getLogger(SiddhiDAOImpl.class);
 
-	public void runPattern(Pattern pattern) throws DuplicatedPattern {
+	public void runPattern(Pattern pattern) throws DuplicatedEntity {
 		// TODO Auto-generated method stub
 		SiddhiApplicationManager.runApp(
 				pattern.getPatternName(),

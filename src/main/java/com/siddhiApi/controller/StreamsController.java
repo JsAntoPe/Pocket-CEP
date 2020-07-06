@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.StreamService;
 
@@ -30,13 +31,27 @@ public class StreamsController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public void createStream(@RequestBody Stream stream){
-        streamService.createStream(stream);
+        try {
+            streamService.createStream(stream);
+        } catch (DuplicatedEntity duplicatedEntity) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null , duplicatedEntity);
+        }
     }
 
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getStream(@PathVariable String name){
         try {
             return streamService.getStream(name).getJsonSchema().toString();
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping(value = "/{name}")
+    public void removeStream(@PathVariable String name){
+        try {
+            streamService.removeStream(name);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
         }

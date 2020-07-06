@@ -1,6 +1,7 @@
 package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Stream;
+import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
 
 import java.util.HashMap;
@@ -33,7 +34,10 @@ public class StreamDatabase {
         StreamDatabase.streamDatabase = streamDatabase;
     }
 
-    public void addStream(Stream stream) {
+    public void addStream(Stream stream) throws DuplicatedEntity {
+        if (streams.containsKey(stream.getStreamID())){
+            throw new DuplicatedEntity("There is a stream with that name already defined.");
+        }
         streams.put(stream.getStreamID(), stream);
     }
 
@@ -42,5 +46,12 @@ public class StreamDatabase {
             throw new NotFoundException("A stream with that ID does not exist.");
         }
         return streams.get(name);
+    }
+
+    public void removeStream(String name) throws NotFoundException {
+        if (!streams.containsKey(name)){
+            throw new NotFoundException("A stream with that ID does not exist.");
+        }
+        streams.remove(name);
     }
 }

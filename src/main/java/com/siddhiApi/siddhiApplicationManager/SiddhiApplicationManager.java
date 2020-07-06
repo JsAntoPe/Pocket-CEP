@@ -1,6 +1,6 @@
 package com.siddhiApi.siddhiApplicationManager;
 
-import com.siddhiApi.exceptions.DuplicatedPattern;
+import com.siddhiApi.exceptions.DuplicatedEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +14,10 @@ public class SiddhiApplicationManager {
 	private static final Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	private static final Map<String, List<String>> inputStreamInApplication = new HashMap<>();
 
-	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedPattern {
+	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
 		if(applications.containsKey(applicationName)){
-			throw new DuplicatedPattern("An application with that name already exists.");
+			throw new DuplicatedEntity("A pattern with that name already exists.");
 		}
 		applications.put(applicationName, new RunSiddhiApplication());
 		applications.get(applicationName).runApp(inputStreamNames, outputStreamName, streamImplementation);

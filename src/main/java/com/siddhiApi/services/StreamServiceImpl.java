@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siddhiApi.dao.*;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.util.Parsers;
 import com.siddhiApi.webhook.WebhookMediator;
@@ -36,13 +37,18 @@ public class StreamServiceImpl implements StreamService{
     private final SiddhiDAO siddhiDAO = new SiddhiDAOImpl();
 
     @Override
-    public void createStream(Stream stream) {
+    public void createStream(Stream stream) throws DuplicatedEntity {
         streamDAO.createStream(stream);
     }
 
     @Override
     public Stream getStream(String stream) throws NotFoundException {
         return streamDAO.getStream(stream);
+    }
+
+    @Override
+    public void removeStream(String stream) throws NotFoundException {
+        streamDAO.removeStream(stream);
     }
 
     @Override

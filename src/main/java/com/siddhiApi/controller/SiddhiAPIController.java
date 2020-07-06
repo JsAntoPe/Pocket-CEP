@@ -35,9 +35,6 @@ public class SiddhiAPIController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
 		}
-		//} /*catch (Exception e) {
-			//throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An application with that name already exists.", e);
-		//}*/
 	}
 
 	/*@GetMapping("/streamsRunning")
