@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/patterns")
 public class SiddhiAPIController {
@@ -35,6 +37,11 @@ public class SiddhiAPIController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
 		}
 	}
+
+	/*@GetMapping("")
+	public List<Pattern> getPatterns(){
+		return patternService.getPatternsRunning();
+	}*/
 
 	/*@GetMapping("/streamsRunning")
 	public String getStreamsRunning(){

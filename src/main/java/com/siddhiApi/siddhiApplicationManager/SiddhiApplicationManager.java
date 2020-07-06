@@ -16,7 +16,9 @@ public class SiddhiApplicationManager {
 
 	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
+		logger.info("applicationName: " + applicationName);
 		if(applications.containsKey(applicationName)){
+			logger.info("applicationName already appears: " + applicationName);
 			throw new DuplicatedEntity("A pattern with that name already exists.");
 		}
 		applications.put(applicationName, new RunSiddhiApplication());

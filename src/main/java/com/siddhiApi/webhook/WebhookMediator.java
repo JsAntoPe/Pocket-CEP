@@ -66,7 +66,6 @@ public class WebhookMediator {
             mapPropertyType.put(key, jsonPropertyToSiddhiProperty.get(parts[3]));
         }
         String[] propertiesOrdered = propertyOrderedDatabase.getPropertiesOrdered(streamName);
-        logger.info("Properties Ordered second property: " + propertiesOrdered[1]);
         for (int i = 0; i < propertiesOrdered.length; ++i){
             json +=  "\"" + propertiesOrdered[i] + "\": ";
             logger.info("Map property: " + mapPropertyType.get(propertiesOrdered[i]));

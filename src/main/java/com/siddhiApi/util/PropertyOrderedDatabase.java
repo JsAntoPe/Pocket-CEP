@@ -25,7 +25,6 @@ public class PropertyOrderedDatabase {
 
     public void addOutputStreamPropertiesOrdered(String outputStreamName, String[] propertiesOrdered){
         logger.info("Name of the output stream: " + outputStreamName);
-        logger.info("Second property: " + propertiesOrdered[1]);
         outputStreamPropertiesOrdered.put(outputStreamName, propertiesOrdered);
     }
 
@@ -35,7 +34,6 @@ public class PropertyOrderedDatabase {
 
     public String[] getPropertiesOrdered(String outputStreamName){
         logger.info("Name of the output stream: " + outputStreamName);
-        logger.info("First property: " + outputStreamPropertiesOrdered.get(outputStreamName)[0]);
         return outputStreamPropertiesOrdered.get(outputStreamName);
     }
 }
