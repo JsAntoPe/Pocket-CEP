@@ -1,16 +1,16 @@
 package com.siddhiApi.dao;
 
-import com.siddhiApi.entity.Application;
+import com.siddhiApi.entity.Pattern;
 
 import java.util.List;
 
 
 public interface SiddhiDAO {
-	void runApp(Application application) throws Exception;
+	void runPattern(Pattern pattern) throws Exception;
 
-	List<String> getApplicationsRunning();
+	List<String> getPatternsRunning();
 
-	void stopApp(String app);
+	void stopPattern(String patternName);
 	
 	void sendEvent(String streamName, Object[] event);
 }

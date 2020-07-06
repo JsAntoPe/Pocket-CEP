@@ -1,9 +1,9 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
-import com.siddhiApi.entity.Application;
-import com.siddhiApi.util.ApplicationCodeChecker;
-import com.siddhiApi.util.ApplicationCodeGeneratorMediator;
+import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.util.PatternCodeChecker;
+import com.siddhiApi.util.PatternCodeGeneratorMediator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ApplicationServiceImpl implements ApplicationService {
+public class PatternServiceImpl implements PatternService {
 
-    private Logger logger = LoggerFactory.getLogger(ApplicationServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(PatternServiceImpl.class);
 
     @Autowired
     private SiddhiDAO siddhiDAO;
@@ -23,21 +23,21 @@ public class ApplicationServiceImpl implements ApplicationService {
     private StreamStructureDAO streamStructureDAO;*/
 
     @Override
-    public void runApp(Application application) throws Exception {
-        logger.info(application.getApplicationCode());
-        application.setApplicationCode(ApplicationCodeGeneratorMediator.getFullApplicationCode(application));
-        ApplicationCodeChecker.outputStreamCheck(application);
-        siddhiDAO.runApp(application);
+    public void runPattern(Pattern pattern) throws Exception {
+        logger.info(pattern.getPatternCode());
+        pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
+        PatternCodeChecker.outputStreamCheck(pattern);
+        siddhiDAO.runPattern(pattern);
     }
 
     @Override
-    public List<String> getApplicationsRunning() {
-        return siddhiDAO.getApplicationsRunning();
+    public List<String> getPatternsRunning() {
+        return siddhiDAO.getPatternsRunning();
     }
 
     @Override
-    public void stopApp(String appName) {
-        siddhiDAO.stopApp(appName);
+    public void stopPattern(String appName) {
+        siddhiDAO.stopPattern(appName);
         //streamStructureDAO.removeStructure(streamName);
     }
 

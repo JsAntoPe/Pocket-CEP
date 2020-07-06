@@ -1,13 +1,12 @@
 package com.siddhiApi.controller;
 
-import com.siddhiApi.entity.Application;
-import com.siddhiApi.services.ApplicationService;
+import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.services.PatternService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value = "/api/v1/applications")
@@ -16,18 +15,18 @@ public class SiddhiAPIController {
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
 
 	@Autowired
-	private final ApplicationService applicationService;
+	private final PatternService patternService;
 
-	public SiddhiAPIController(ApplicationService applicationService) {
-		this.applicationService = applicationService;
+	public SiddhiAPIController(PatternService patternService) {
+		this.patternService = patternService;
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/run")
-	public void runApp(@RequestBody Application application) { //HttpEntity<String> instead of String
+	public void runPattern(@RequestBody Pattern pattern) { //HttpEntity<String> instead of String
 		//try {
 		try {
-			applicationService.runApp(application);
+			patternService.runPattern(pattern);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

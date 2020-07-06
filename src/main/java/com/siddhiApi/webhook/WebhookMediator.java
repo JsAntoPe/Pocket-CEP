@@ -2,6 +2,7 @@ package com.siddhiApi.webhook;
 
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.StreamService;
 import com.siddhiApi.services.StreamServiceImpl;
 import com.siddhiApi.util.PropertyOrderedDatabase;
@@ -48,9 +49,15 @@ public class WebhookMediator {
         }
     };
 
-    private static String dataToJSON(String streamName, Object[] data){
+    private static String dataToJSON(String streamName, Object[] data) {
         String json = "{";
-        Stream stream = streamService.getStream(streamName);
+        Stream stream = null;
+        try {
+            stream = streamService.getStream(streamName);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        assert stream != null;
         JSONObject schemaToStream = new JSONObject(stream.getJsonSchema().get("properties").toString());
 
         Map<String, String> mapPropertyType = new HashMap<>();

@@ -1,6 +1,6 @@
 package com.siddhiApi.util;
 
-import com.siddhiApi.entity.Application;
+import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.services.StreamService;
 import com.siddhiApi.services.StreamServiceImpl;
@@ -10,35 +10,34 @@ import org.slf4j.LoggerFactory;
 
 import java.util.PriorityQueue;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class ApplicationCodeChecker {
+public class PatternCodeChecker {
 
-    static Logger logger = LoggerFactory.getLogger(ApplicationCodeChecker.class);
+    static Logger logger = LoggerFactory.getLogger(PatternCodeChecker.class);
 
     private static StreamService streamService = new StreamServiceImpl();
 
     private static PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
 
-    public static void outputStreamCheck(Application application) throws Exception {
+    public static void outputStreamCheck(Pattern pattern) throws Exception {
         String lastControlStatement;
-        if(Pattern.compile("(group by)").matcher(application.getApplicationCode()).find()){
+        if(java.util.regex.Pattern.compile("(group by)").matcher(pattern.getPatternCode()).find()){
             lastControlStatement = "group by";
         } else {
             lastControlStatement = "insert into";
         }
 
-        Stream stream = streamService.getStream(application.getOutputStreamName());
+        Stream stream = streamService.getStream(pattern.getOutputStreamName());
         PriorityQueue<PropertyFirstAppearance> propertyFirstAppearancePriorityQueue = new PriorityQueue<>();
 
         JSONObject propertiesJSON = new JSONObject(stream.getJsonSchema().get("properties").toString());
         Matcher matcher;
         for (String property : propertiesJSON.keySet()){
-            matcher = Pattern.compile("select.*(" + property +").*" + lastControlStatement)
-                    .matcher(application.getApplicationCode());
+            matcher = java.util.regex.Pattern.compile("select.*(" + property +").*" + lastControlStatement)
+                    .matcher(pattern.getPatternCode());
             logger.info("Pattern: " + "select.*(" + property +").*" + lastControlStatement);
             if(matcher.find()){
-                logger.info("What matcher has found: " + application.getApplicationCode().substring(183));
+                logger.info("What matcher has found: " + pattern.getPatternCode().substring(183));
                 int firstMatch = matcher.start(1); //By writing 1 here, we achieve that JAVA only looks for what it is between the parenthesis.
                 propertyFirstAppearancePriorityQueue.add(new PropertyFirstAppearance(property, firstMatch));
             } else {
@@ -57,6 +56,6 @@ public class ApplicationCodeChecker {
             propertiesSorted[i] = property.getProperty();
             ++i;
         }
-        propertyOrderedDatabase.addOutputStreamPropertiesOrdered(application.getOutputStreamName(), propertiesSorted);
+        propertyOrderedDatabase.addOutputStreamPropertiesOrdered(pattern.getOutputStreamName(), propertiesSorted);
     }
 }

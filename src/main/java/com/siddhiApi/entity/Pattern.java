@@ -1,9 +1,7 @@
 package com.siddhiApi.entity;
 
-import java.util.List;
-
-public class Application {
-	private String applicationName, outputStreamName, applicationCode;
+public class Pattern {
+	private String patternName, outputStreamName, patternCode;
 
 	public String[] getInputStreamNames() {
 		return inputStreamNames;
@@ -16,19 +14,19 @@ public class Application {
 	//private List<String> inputStreamNames;
 	private String[] inputStreamNames;
 
-	public Application(String applicationName, /*List<String>*/ String[] inputStreamNames, String outputStreamName, String applicationCode) {
-		this.applicationName = applicationName;
+	public Pattern(String patternName, /*List<String>*/ String[] inputStreamNames, String outputStreamName, String patternCode) {
+		this.patternName = patternName;
 		this.inputStreamNames = inputStreamNames;
 		this.outputStreamName = outputStreamName;
-		this.applicationCode = applicationCode;
+		this.patternCode = patternCode;
 	}
 
-	public String getApplicationName() {
-		return applicationName;
+	public String getPatternName() {
+		return patternName;
 	}
 
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
+	public void setPatternName(String patternName) {
+		this.patternName = patternName;
 	}
 
 	public String getOutputStreamName() {
@@ -39,12 +37,12 @@ public class Application {
 		this.outputStreamName = outputStreamName;
 	}
 
-	public String getApplicationCode() {
-		return applicationCode;
+	public String getPatternCode() {
+		return patternCode;
 	}
 
-	public void setApplicationCode(String applicationCode) {
-		this.applicationCode = applicationCode;
+	public void setPatternCode(String patternCode) {
+		this.patternCode = patternCode;
 	}
 
 	/*public List<String> getInputStreamNames() {
