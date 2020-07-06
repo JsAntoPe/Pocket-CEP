@@ -19,7 +19,7 @@ public interface StreamService {
 
     void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException, NotFoundException;
 
-    String subscribe(String streamID, Subscription subscription);
+    Subscription subscribe(String streamID, Subscription subscription) throws NotFoundException;
 
     List<Subscription> getSubscriptions(String streamID);
 

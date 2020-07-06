@@ -5,7 +5,7 @@ import com.siddhiApi.entity.Subscription;
 import java.util.List;
 
 public interface SubscriptionDAO {
-    String subscribe(String streamID, Subscription subscription);
+    Subscription subscribe(String streamID, Subscription subscription);
 
     List<Subscription> getSubscriptions(String streamID);
 

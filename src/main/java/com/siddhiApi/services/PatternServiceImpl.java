@@ -1,11 +1,16 @@
 package com.siddhiApi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +31,16 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {
-        logger.info(pattern.getPatternCode());
+        /*logger.info(pattern.getPatternCode());
+
+        JSONObject patternSchema = new JSONObject("src/main/resources/PatternJSONSchema");
+
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject introducedPatternSchema = new JSONObject(mapper.writeValueAsString(pattern));
+        logger.info("Introduced Pattern Schema: " + introducedPatternSchema);
+        Schema schema = SchemaLoader.load(patternSchema);
+        schema.validate(introducedPatternSchema);
+        */
         pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
         PatternCodeChecker.outputStreamCheck(pattern);
         siddhiDAO.runPattern(pattern);

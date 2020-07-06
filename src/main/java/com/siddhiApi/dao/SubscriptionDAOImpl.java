@@ -12,9 +12,9 @@ public class SubscriptionDAOImpl implements SubscriptionDAO{
     private final SubscriptionsDatabase subscriptionsDatabase = SubscriptionsDatabase.getSubscriptionsDatabase();
 
     @Override
-    public String subscribe(String streamID, Subscription subscription) {
+    public Subscription subscribe(String streamID, Subscription subscription) {
         subscriptionsDatabase.addStreamSubscription(streamID, subscription);
-        return subscription.getIdentifier();
+        return subscription;
     }
 
     @Override

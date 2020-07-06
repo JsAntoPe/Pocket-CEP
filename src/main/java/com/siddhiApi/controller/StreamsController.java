@@ -1,7 +1,6 @@
 package com.siddhiApi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.DuplicatedEntity;
@@ -9,7 +8,6 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.StreamService;
 
 import org.everit.json.schema.ValidationException;
-import org.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +72,12 @@ public class StreamsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{streamID}/subscriptions")
-    public String subscribe(@PathVariable String streamID, @RequestBody Subscription subscription){
-        return streamService.subscribe(streamID, subscription);
+    public Subscription subscribe(@PathVariable String streamID, @RequestBody Subscription subscription){
+        try {
+            return streamService.subscribe(streamID, subscription);
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
+        }
     }
 
     @GetMapping(value = "/{streamID}/subscriptions")

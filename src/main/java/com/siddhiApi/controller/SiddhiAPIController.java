@@ -27,7 +27,6 @@ public class SiddhiAPIController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/run")
 	public void runPattern(@RequestBody Pattern pattern) { //HttpEntity<String> instead of String
-		//try {
 		try {
 			patternService.runPattern(pattern);
 		} catch (NotFoundException nfe){
