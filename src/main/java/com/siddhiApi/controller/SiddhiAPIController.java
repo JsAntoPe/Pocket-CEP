@@ -1,15 +1,18 @@
 package com.siddhiApi.controller;
 
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.services.PatternService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping(value = "/api/v1/applications")
+@RequestMapping(value = "/api/v1/patterns")
 public class SiddhiAPIController {
 
 	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
@@ -27,8 +30,10 @@ public class SiddhiAPIController {
 		//try {
 		try {
 			patternService.runPattern(pattern);
+		} catch (NotFoundException nfe){
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, nfe);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
 		}
 		//} /*catch (Exception e) {
 			//throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An application with that name already exists.", e);

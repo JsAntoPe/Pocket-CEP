@@ -2,6 +2,8 @@ package com.siddhiApi.util;
 
 import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.entity.Stream;
+import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.services.StreamService;
 import com.siddhiApi.services.StreamServiceImpl;
 import org.json.JSONObject;
@@ -19,7 +21,7 @@ public class PatternCodeChecker {
 
     private static PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
 
-    public static void outputStreamCheck(Pattern pattern) throws Exception {
+    public static void outputStreamCheck(Pattern pattern) throws NotFoundException, PropertyNotFoundOnSelect {
         String lastControlStatement;
         if(java.util.regex.Pattern.compile("(group by)").matcher(pattern.getPatternCode()).find()){
             lastControlStatement = "group by";
@@ -28,6 +30,7 @@ public class PatternCodeChecker {
         }
 
         Stream stream = streamService.getStream(pattern.getOutputStreamName());
+        assert stream != null;
         PriorityQueue<PropertyFirstAppearance> propertyFirstAppearancePriorityQueue = new PriorityQueue<>();
 
         JSONObject propertiesJSON = new JSONObject(stream.getJsonSchema().get("properties").toString());
@@ -41,7 +44,7 @@ public class PatternCodeChecker {
                 int firstMatch = matcher.start(1); //By writing 1 here, we achieve that JAVA only looks for what it is between the parenthesis.
                 propertyFirstAppearancePriorityQueue.add(new PropertyFirstAppearance(property, firstMatch));
             } else {
-                throw new Exception("The property " + property + " does not appear on the select statement.");
+                throw new PropertyNotFoundOnSelect("The property " + property + " does not appear on the select statement.");
             }
         }
 

@@ -2,6 +2,8 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.SiddhiDAO;
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
 import org.slf4j.Logger;

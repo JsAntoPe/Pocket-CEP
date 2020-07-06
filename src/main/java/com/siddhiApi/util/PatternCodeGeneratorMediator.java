@@ -19,11 +19,19 @@ public class PatternCodeGeneratorMediator {
         String applicationCode = "";
         for(String inputStreamName: pattern.getInputStreamNames()){
             logger.info("InputStreamName: " + inputStreamName);
-            logger.info("InputStreamName from stream itself: " + streamService.getStream(inputStreamName).getStreamID());
-            applicationCode += streamGenerator.generateCodeInputStream(streamService.getStream(inputStreamName));
+            //logger.info("InputStreamName from stream itself: " + streamService.getStream(inputStreamName).getStreamID());
+            try {
+                applicationCode += streamGenerator.generateCodeInputStream(streamService.getStream(inputStreamName));
+            } catch (NotFoundException e) {
+                throw new NotFoundException("There is no input stream with the ID passed.");
+            }
         }
         applicationCode += pattern.getPatternCode();
-        applicationCode += streamGenerator.generateCodeOutputStream(streamService.getStream(pattern.getOutputStreamName()));
+        try {
+            applicationCode += streamGenerator.generateCodeOutputStream(streamService.getStream(pattern.getOutputStreamName()));
+        } catch (NotFoundException e) {
+            throw new NotFoundException("There is no output stream with the ID passed.");
+        }
 
         logger.info("Application code: " + applicationCode);
         return applicationCode;
