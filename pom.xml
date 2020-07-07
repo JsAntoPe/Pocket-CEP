@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>rest-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>Pocket-CEP</artifactId>
+    <version>0.0.4</version>
     <name>rest-service</name>
     <description>Demo project for Spring Boot</description>
 
