@@ -82,13 +82,12 @@ public class Webhook{
 
         assert input != null;
 
-
-
         Request request = new RequestBuilder()
                 .setUrl(this.url)
                 .setMethod(this.method)
-                .setBody(input)
-                .setHeader("Content-Type", "application/json; utf-8")
+                .setBody(this.body)
+                //.setBody(input)
+                .setHeader("Content-Type", "application/json")
                 //.setCharset()//
                 .build();
 
