@@ -1,30 +1,32 @@
 package com.siddhiApi.webhook;
 
+import org.asynchttpclient.*;
+import org.asynchttpclient.util.HttpConstants;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
 public class Webhook{
-    private final URL url;
+    private final String url;
     private final String method;
     private final String body;
 
-
+    static AsyncHttpClient asyncClient = Dsl.asyncHttpClient();
 
     Logger logger = LoggerFactory.getLogger(Webhook.class);
 
     public Webhook(String url, String method, String body) throws MalformedURLException {
-        this.url = new URL(url);
+        this.url = url;
         this.method = method;
         this.body = body;
+
+        //JSONObject jsonToSend = new JSONObject(body);
         /*Thread thread = new Thread(() -> {
             try {
                 HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
@@ -43,7 +45,7 @@ public class Webhook{
                 e.printStackTrace();
             }
         });*/
-        try {
+        /*try {
             HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
             connection.setRequestMethod(this.method);
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -67,7 +69,37 @@ public class Webhook{
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+
+        OutputStream os = new ByteArrayOutputStream();
+        byte[] input = null;
+        try {
+            input = this.body.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        assert input != null;
+
+
+
+        Request request = new RequestBuilder()
+                .setUrl(this.url)
+                .setMethod(this.method)
+                .setBody(input)
+                .setHeader("Content-Type", "application/json; utf-8")
+                //.setCharset()//
+                .build();
+
+        asyncClient.executeRequest(request, new AsyncCompletionHandler<Object>() {
+            @Override
+            public Object onCompleted(Response response) throws Exception {
+                logger.info("Inside execute request.");
+                return null;
+            }
+        });
+
         logger.info("URL: " + this.url);
         logger.info("Method: " + this.method);
         logger.info("Body: " + this.body);

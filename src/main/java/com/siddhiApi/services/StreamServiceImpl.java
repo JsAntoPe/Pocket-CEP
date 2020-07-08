@@ -67,7 +67,7 @@ public class StreamServiceImpl implements StreamService{
         siddhiDAO.sendEvent(stream, eventParsed);
         List<Subscription> subscriptions = this.getSubscriptions(stream);
         if (subscriptions != null){
-            WebhookMediator.webhookFromSubscription(subscriptions, event);
+            WebhookMediator.webhookFromSubscription(subscriptions, eventSchema);
         }
     }
 
