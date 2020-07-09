@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "88b87851-cd6a-4224-90bd-5ff8cf1a9646",
+		"name": "Pocket CEP - Basic Operations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Patterns",
+			"item": [
+				{
+					"name": "Create Pattern",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patternName\": \"Stock aggregation pattern\",\n    \"inputStreamNames\": [\"StockEvent\"],\n    \"outputStreamName\": \"AggregateStockStream\",\n    \"patternCode\": \"from StockEvent#window.time(5 sec) select sum(volume) as volume, symbol, sum(price) as price group by symbol\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/patterns/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"patterns",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pattern No Price",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patternName\": \"Stock aggregation pattern\",\n    \"inputStreamNames\": [\"StockEvent\"],\n    \"outputStreamName\": \"AggregateStockStream\",\n    \"patternCode\": \"from StockEvent#window.time(5 sec) select sum(volume) as volume, symbol, group by symbol\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/patterns/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"patterns",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pattern No symbol",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patternName\": \"Stock aggregation pattern\",\n    \"inputStreamNames\": [\"StockEvent\"],\n    \"outputStreamName\": \"AggregateStockStream\",\n    \"patternCode\": \"from StockEvent#window.time(5 sec) select sum(volume) as volume, sum(price) as price group by symbol\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/patterns/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"patterns",
+								"run"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pattern Wrong Structure",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patternName\": \"Stock aggregation pattern\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/patterns/run",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"patterns",
+								"run"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Streams",
+			"item": [
+				{
+					"name": "Streams CRUD",
+					"item": [
+						{
+							"name": "Add Input Stream",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"streamID\": \"StockEvent\",\n    \"jsonSchema\": {\n        \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n        \"$id\": \"http://example.com/product.schema.json\",\n        \"title\": \"StockEvent\",\n        \"description\": \"Schema for Stock Event\",\n        \"type\": \"object\",\n        \"properties\": {\n            \"symbol\":   { \"type\": \"string\" },\n            \"price\":    { \"type\": \"number\" },\n            \"volume\":   { \"type\": \"number\" }\n        },\n        \"required\": [\"symbol\", \"price\", \"volume\"],\n        \"additionalProperties\": false\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/streams",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Input Stream",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/streams/StockEvent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams",
+										"StockEvent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Input Stream",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/streams/StockEvent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams",
+										"StockEvent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Output Stream",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"streamID\": \"AggregateStockStream\",\n    \"jsonSchema\": {\n        \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n        \"$id\": \"http://example.com/product.schema.json\",\n        \"title\": \"AggregateStockStream\",\n        \"description\": \"Schema for AggregateStockStream Event\",\n        \"type\": \"object\",\n        \"properties\": {\n            \"symbol\":   { \"type\": \"string\" },\n            \"price\":    { \"type\": \"number\" },\n            \"volume\":   { \"type\": \"number\" }\n        },\n        \"required\": [\"symbol\", \"price\", \"volume\"],\n        \"additionalProperties\": false\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/streams",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Streams Events",
+					"item": [
+						{
+							"name": "Send Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"price\": 100.0,\n\t\"volume\": 100.0,\n\t\"symbol\": \"IBM\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/streams/StockEvent/events",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams",
+										"StockEvent",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Event Incorrect Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"symbol\": \"IBM\",\n\t\"price\": 100,\n\t\"volume\": 100,\n\t\"fail\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/streams/StockEvent/events",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"streams",
+										"StockEvent",
+										"events"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Create Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"webhook\": \"webhookMock\",\n    \"method\": \"POST\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/streams/StockEvent/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"streams",
+								"StockEvent",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Subscription 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"webhook\": \"webhookMock2\",\n    \"method\": \"GET\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/streams/StockEvent/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"streams",
+								"StockEvent",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get StockEvent Subscriptions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/streams/StockEvent/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"streams",
+								"StockEvent",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
