@@ -1,16 +1,9 @@
 package com.siddhiApi.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.siddhiApi.dao.SiddhiDAO;
+import com.siddhiApi.dao.PatternDAO;
 import com.siddhiApi.entity.Pattern;
-import com.siddhiApi.exceptions.NotFoundException;
-import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +17,7 @@ public class PatternServiceImpl implements PatternService {
     private Logger logger = LoggerFactory.getLogger(PatternServiceImpl.class);
 
     @Autowired
-    private SiddhiDAO siddhiDAO;
+    private PatternDAO patternDAO;
 
     /*@Autowired
     private StreamStructureDAO streamStructureDAO;*/
@@ -43,18 +36,23 @@ public class PatternServiceImpl implements PatternService {
         */
         pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
         PatternCodeChecker.outputStreamCheck(pattern);
-        siddhiDAO.runPattern(pattern);
+        patternDAO.runPattern(pattern);
     }
 
     @Override
     public List<String> getPatternsRunning() {
-        return siddhiDAO.getPatternsRunning();
+        return patternDAO.getPatternsRunning();
     }
 
     @Override
     public void stopPattern(String appName) {
-        siddhiDAO.stopPattern(appName);
+        patternDAO.stopPattern(appName);
         //streamStructureDAO.removeStructure(streamName);
+    }
+
+    @Override
+    public List<Pattern> getPatterns() {
+        return patternDAO.getPatterns();
     }
 
     /*@Override

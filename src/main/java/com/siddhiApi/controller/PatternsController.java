@@ -2,7 +2,6 @@ package com.siddhiApi.controller;
 
 import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.exceptions.NotFoundException;
-import com.siddhiApi.exceptions.PropertyNotFoundOnSelect;
 import com.siddhiApi.services.PatternService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,19 +14,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/patterns")
-public class SiddhiAPIController {
+public class PatternsController {
 
-	Logger logger = LoggerFactory.getLogger(SiddhiAPIController.class);
+	Logger logger = LoggerFactory.getLogger(PatternsController.class);
 
 	@Autowired
 	private final PatternService patternService;
 
-	public SiddhiAPIController(PatternService patternService) {
+	public PatternsController(PatternService patternService) {
 		this.patternService = patternService;
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("/run")
+	@PostMapping("")
 	public void runPattern(@RequestBody Pattern pattern) { //HttpEntity<String> instead of String
 		try {
 			patternService.runPattern(pattern);
@@ -38,10 +37,10 @@ public class SiddhiAPIController {
 		}
 	}
 
-	/*@GetMapping("")
+	@GetMapping("")
 	public List<Pattern> getPatterns(){
-		return patternService.getPatternsRunning();
-	}*/
+		return patternService.getPatterns();
+	}
 
 	/*@GetMapping("/streamsRunning")
 	public String getStreamsRunning(){

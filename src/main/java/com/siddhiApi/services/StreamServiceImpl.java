@@ -33,7 +33,7 @@ public class StreamServiceImpl implements StreamService{
     private final StreamDAO streamDAO = new StreamDAOImpl();
 
     @Autowired
-    private final SiddhiDAO siddhiDAO = new SiddhiDAOImpl();
+    private final PatternDAO patternDAO = new PatternDAOImpl();
 
     @Override
     public void createStream(Stream stream) throws DuplicatedEntity {
@@ -64,7 +64,7 @@ public class StreamServiceImpl implements StreamService{
         for (Object object: eventParsed){
             logger.info("Property on event already parsed: " + object);
         }
-        siddhiDAO.sendEvent(stream, eventParsed);
+        patternDAO.sendEvent(stream, eventParsed);
         List<Subscription> subscriptions = this.getSubscriptions(stream);
         if (subscriptions != null){
             WebhookMediator.webhookFromSubscription(subscriptions, eventSchema);

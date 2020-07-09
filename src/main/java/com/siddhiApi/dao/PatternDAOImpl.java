@@ -2,18 +2,22 @@ package com.siddhiApi.dao;
 
 
 import com.siddhiApi.exceptions.DuplicatedEntity;
+import com.siddhiApi.inMemoryStorage.PatternsDatabase;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SiddhiDAOImpl implements SiddhiDAO{
+public class PatternDAOImpl implements PatternDAO {
 
-	Logger logger = LoggerFactory.getLogger(SiddhiDAOImpl.class);
+	Logger logger = LoggerFactory.getLogger(PatternDAOImpl.class);
+
+	private PatternsDatabase patternsDatabase = PatternsDatabase.getPatternsDatabase();
 
 	public void runPattern(Pattern pattern) throws DuplicatedEntity {
 		// TODO Auto-generated method stub
@@ -29,6 +33,13 @@ public class SiddhiDAOImpl implements SiddhiDAO{
 		}
 		logger.info("Pattern Output Stream: " + pattern.getOutputStreamName());
 		logger.info("Pattern Code: " + pattern.getPatternCode());
+	}
+
+	@Override
+	public List<Pattern> getPatterns() {
+		List<Pattern> list = new ArrayList<>();
+		patternsDatabase.getPatterns().addAll(list);
+		return list;
 	}
 
 	@Override

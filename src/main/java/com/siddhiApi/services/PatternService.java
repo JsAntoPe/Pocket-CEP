@@ -11,5 +11,7 @@ public interface PatternService {
 
     void stopPattern(String patternName);
 
+    List<Pattern> getPatterns();
+
     //void sendEvent(String streamName, CustomEvent event) throws Exception;
 }

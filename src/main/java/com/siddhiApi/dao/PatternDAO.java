@@ -5,8 +5,10 @@ import com.siddhiApi.entity.Pattern;
 import java.util.List;
 
 
-public interface SiddhiDAO {
+public interface PatternDAO {
 	void runPattern(Pattern pattern) throws Exception;
+
+	List<Pattern> getPatterns();
 
 	List<String> getPatternsRunning();
 
