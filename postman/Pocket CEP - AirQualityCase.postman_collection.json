@@ -20,12 +20,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -50,12 +50,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams/AirMesurement/subscriptions",
+					"raw": "http://localhost:9999/api/v1/streams/AirMesurement/subscriptions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -82,12 +82,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -112,12 +112,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams/NO2_Avg/subscriptions",
+					"raw": "http://localhost:9999/api/v1/streams/NO2_Avg/subscriptions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -144,12 +144,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -174,12 +174,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams/PollutantLevel/subscriptions",
+					"raw": "http://localhost:9999/api/v1/streams/PollutantLevel/subscriptions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -206,12 +206,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -236,12 +236,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams/AirQualityLevel/subscriptions",
+					"raw": "http://localhost:9999/api/v1/streams/AirQualityLevel/subscriptions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -268,12 +268,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/patterns",
+					"raw": "http://localhost:9999/api/v1/patterns",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -298,12 +298,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/patterns",
+					"raw": "http://localhost:9999/api/v1/patterns",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -328,12 +328,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/patterns",
+					"raw": "http://localhost:9999/api/v1/patterns",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -358,11 +358,11 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/streams/AirMesurement/events",
+					"raw": "localhost:9999/api/v1/streams/AirMesurement/events",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",

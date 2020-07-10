@@ -20,12 +20,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -50,12 +50,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -80,12 +80,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams",
+					"raw": "http://localhost:9999/api/v1/streams",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -110,12 +110,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/patterns/run",
+					"raw": "http://localhost:9999/api/v1/patterns/run",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -141,12 +141,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/streams/JoinStream/subscriptions",
+					"raw": "http://localhost:9999/api/v1/streams/JoinStream/subscriptions",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -173,11 +173,11 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/streams/Evento1/events",
+					"raw": "localhost:9999/api/v1/streams/Evento1/events",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
@@ -204,11 +204,11 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/streams/Evento2/events",
+					"raw": "localhost:9999/api/v1/streams/Evento2/events",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9999",
 					"path": [
 						"api",
 						"v1",
