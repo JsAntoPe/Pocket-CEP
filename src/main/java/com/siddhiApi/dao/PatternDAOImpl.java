@@ -2,6 +2,7 @@ package com.siddhiApi.dao;
 
 
 import com.siddhiApi.exceptions.DuplicatedEntity;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.inMemoryStorage.PatternsDatabase;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +21,7 @@ public class PatternDAOImpl implements PatternDAO {
 
 	public void runPattern(Pattern pattern) throws DuplicatedEntity {
 		// TODO Auto-generated method stub
+		patternsDatabase.addPattern(pattern);
 		SiddhiApplicationManager.runApp(
 				pattern.getPatternName(),
 				pattern.getInputStreamNames(),
@@ -36,10 +37,13 @@ public class PatternDAOImpl implements PatternDAO {
 	}
 
 	@Override
-	public List<Pattern> getPatterns() {
-		List<Pattern> list = new ArrayList<>();
-		patternsDatabase.getPatterns().addAll(list);
-		return list;
+	public Pattern[] getPatterns() {
+		return patternsDatabase.getPatterns();
+	}
+
+	@Override
+	public Pattern getPattern(String id) throws NotFoundException {
+		return patternsDatabase.getPattern(id);
 	}
 
 	@Override

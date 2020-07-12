@@ -38,10 +38,18 @@ public class PatternsController {
 	}
 
 	@GetMapping("")
-	public List<Pattern> getPatterns(){
+	public Pattern[] getPatterns(){
 		return patternService.getPatterns();
 	}
 
+	@GetMapping("/{id}")
+	public Pattern getPatterns(@PathVariable String id){
+		try {
+			return patternService.getPattern(id);
+		} catch (NotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
+		}
+	}
 	/*@GetMapping("/streamsRunning")
 	public String getStreamsRunning(){
 		List<String> appsRunning;

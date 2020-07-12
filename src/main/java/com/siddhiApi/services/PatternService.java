@@ -1,6 +1,7 @@
 package com.siddhiApi.services;
 
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ public interface PatternService {
 
     void stopPattern(String patternName);
 
-    List<Pattern> getPatterns();
+    Pattern[] getPatterns();
+
+    Pattern getPattern(String id) throws NotFoundException;
 
     //void sendEvent(String streamName, CustomEvent event) throws Exception;
 }

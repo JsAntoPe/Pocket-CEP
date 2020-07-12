@@ -1,11 +1,10 @@
 package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.exceptions.DuplicatedEntity;
+import com.siddhiApi.exceptions.NotFoundException;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PatternsDatabase {
     private Set<Pattern> patterns;
@@ -22,11 +21,33 @@ public class PatternsDatabase {
         return patternsDatabase;
     }
 
-    public Set<Pattern> getPatterns() {
-        return patterns;
+    public Pattern[] getPatterns() {
+        Pattern[] patternsArray = new Pattern[patterns.size()];
+        int i = 0;
+        for (Pattern pattern : patterns){
+            patternsArray[i] = pattern;
+            ++i;
+        }
+        return patternsArray;
     }
 
     public void setPatterns(Set<Pattern> patterns) {
         this.patterns = patterns;
+    }
+
+    public void addPattern(Pattern pattern) throws DuplicatedEntity {
+        if (patterns.contains(pattern)){
+            throw new DuplicatedEntity("There is an existent pattern with this id already.");
+        }
+        patterns.add(pattern);
+    }
+
+    public Pattern getPattern(String id) throws NotFoundException {
+        for (Pattern pattern: patterns){
+            if (pattern.getPatternName().equals(id)){
+                return pattern;
+            }
+        }
+        throw new NotFoundException("There is no pattern with that name.");
     }
 }

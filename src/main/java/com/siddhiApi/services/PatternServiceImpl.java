@@ -2,6 +2,7 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.PatternDAO;
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
 import org.slf4j.Logger;
@@ -51,8 +52,13 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
-    public List<Pattern> getPatterns() {
+    public Pattern[] getPatterns() {
         return patternDAO.getPatterns();
+    }
+
+    @Override
+    public Pattern getPattern(String id) throws NotFoundException {
+        return patternDAO.getPattern(id);
     }
 
     /*@Override
