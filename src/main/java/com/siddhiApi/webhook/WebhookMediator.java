@@ -24,7 +24,7 @@ public class WebhookMediator {
     public static void webhookFromSiddhiApp(String streamName, Object[] data){
         String dataToJSON = dataToJSON(streamName, data);
         try {
-            new Webhook("http://localhost:8080/api/v1/streams/" + streamName + "/events", "POST", dataToJSON);
+            new Webhook("http://localhost:9999/api/v1/streams/" + streamName + "/events", "POST", dataToJSON);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
