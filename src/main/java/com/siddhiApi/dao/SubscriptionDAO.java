@@ -1,17 +1,20 @@
 package com.siddhiApi.dao;
 
 import com.siddhiApi.entity.Subscription;
+import com.siddhiApi.exceptions.NotFoundException;
 
 import java.util.List;
 
 public interface SubscriptionDAO {
     Subscription subscribe(String streamID, Subscription subscription);
 
-    List<Subscription> getSubscriptions(String streamID);
+    Subscription[] getSubscriptions(String streamID);
 
-    Subscription getSubscriptions(String streamID, String subscriptionID);
+    Subscription getSubscription(String streamID, String subscriptionID) throws NotFoundException;
 
     String unsubscribe(String streamID, String subscriptionID);
 
-    String getSubscriptionsToString(String streamID);
+    void removeAllSubscriptionsOfAStream(String streamID) throws NotFoundException;
+
+    //String getSubscriptionsToString(String streamID);
 }

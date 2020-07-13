@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,6 +49,7 @@ public class StreamServiceImpl implements StreamService{
     @Override
     public void removeStream(String stream) throws NotFoundException {
         streamDAO.removeStream(stream);
+        subscriptionDAO.removeAllSubscriptionsOfAStream(stream);
     }
 
     @Override
@@ -65,9 +67,9 @@ public class StreamServiceImpl implements StreamService{
             logger.info("Property on event already parsed: " + object);
         }
         patternDAO.sendEvent(stream, eventParsed);
-        List<Subscription> subscriptions = this.getSubscriptions(stream);
+        Subscription[] subscriptions = this.getSubscriptions(stream);
         if (subscriptions != null){
-            WebhookMediator.webhookFromSubscription(subscriptions, eventSchema);
+            WebhookMediator.webhookFromSubscription(Arrays.asList(subscriptions), eventSchema);
         }
     }
 
@@ -77,12 +79,17 @@ public class StreamServiceImpl implements StreamService{
     }
 
     @Override
-    public List<Subscription> getSubscriptions(String streamID) {
+    public Subscription[] getSubscriptions(String streamID) {
         return subscriptionDAO.getSubscriptions(streamID);
     }
 
     @Override
+    public Subscription getSubscription(String streamID, String id) throws NotFoundException {
+        return subscriptionDAO.getSubscription(streamID, id);
+    }
+
+    /*@Override
     public String getStreamSubscriptionsToString(String streamID) {
         return subscriptionDAO.getSubscriptionsToString(streamID);
-    }
+    }*/
 }

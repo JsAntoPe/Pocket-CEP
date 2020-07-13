@@ -21,7 +21,9 @@ public interface StreamService {
 
     Subscription subscribe(String streamID, Subscription subscription) throws NotFoundException;
 
-    List<Subscription> getSubscriptions(String streamID);
+    Subscription[] getSubscriptions(String streamID);
 
-    String getStreamSubscriptionsToString(String streamID);
+    Subscription getSubscription(String streamID, String id) throws NotFoundException;
+
+    //String getStreamSubscriptionsToString(String streamID);
 }

@@ -2,6 +2,7 @@ package com.siddhiApi.inMemoryStorage;
 
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.NotFoundException;
+import io.siddhi.query.api.expression.condition.Not;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import java.util.*;
@@ -49,11 +50,31 @@ public class SubscriptionsDatabase {
         this.streamSubscriptions = streamSubscriptions;
     }
 
-    public List<Subscription> getSubscriptions(String streamID){
-        return streamSubscriptions.getOrDefault(streamID, null);
+    public Subscription[] getSubscriptions(String streamID) {
+        if(!streamSubscriptions.containsKey(streamID)){
+            return new Subscription[0];
+        }
+        return streamSubscriptions.get(streamID).toArray(new Subscription[streamSubscriptions.size()]);
     }
 
-    public String getSubscriptionsToString(String streamID) {
+    public Subscription getSubscription(String streamID, String id) throws NotFoundException {
+        Subscription[] subscriptions = getSubscriptions(streamID);
+        for (Subscription subscription: subscriptions){
+            if (subscription.getIdentifier().equals(id)){
+                return subscription;
+            }
+        }
+        throw new NotFoundException("The subscription does not exist.");
+    }
+
+    public void removeAllStreamSubscriptions(String streamID) throws NotFoundException {
+        if(!streamSubscriptions.containsKey(streamID)){
+            throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
+        }
+        streamSubscriptions.remove(streamID);
+    }
+
+    /*public String getSubscriptionsToString(String streamID) {
         List<Subscription> subscriptionsToPrint = getSubscriptions(streamID);
         if (subscriptionsToPrint == null){
             return "No subscriptions";
@@ -65,5 +86,5 @@ public class SubscriptionsDatabase {
         }
 
         return subscriptions;
-    }
+    }*/
 }

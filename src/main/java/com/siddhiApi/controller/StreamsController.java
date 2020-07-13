@@ -76,12 +76,21 @@ public class StreamsController {
         try {
             return streamService.subscribe(streamID, subscription);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The subscription could not be found." , e);
         }
     }
 
     @GetMapping(value = "/{streamID}/subscriptions")
-    public String getStreamSubscriptions(@PathVariable String streamID){
-        return streamService.getStreamSubscriptionsToString(streamID);
+    public Subscription[] getStreamSubscriptions(@PathVariable String streamID){
+        return streamService.getSubscriptions(streamID);
+    }
+
+    @GetMapping(value = "/{streamID}/subscriptions/{id}")
+    public Subscription getStreamSubscription(@PathVariable String streamID, @PathVariable String id){
+        try {
+            return streamService.getSubscription(streamID, id);
+        } catch (NotFoundException notFoundException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The resource could not be found." , notFoundException);
+        }
     }
 }
