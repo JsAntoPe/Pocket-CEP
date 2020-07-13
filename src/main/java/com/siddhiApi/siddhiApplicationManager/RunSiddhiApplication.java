@@ -4,6 +4,7 @@ import com.siddhiApi.webhook.Webhook;
 import com.siddhiApi.webhook.WebhookMediator;
 import io.siddhi.core.SiddhiAppRuntime;
 import io.siddhi.core.SiddhiManager;
+import io.siddhi.core.exception.SiddhiAppCreationException;
 import io.siddhi.core.stream.input.InputHandler;
 import io.siddhi.core.stream.output.StreamCallback;
 import io.siddhi.core.util.EventPrinter;
@@ -20,7 +21,7 @@ public class RunSiddhiApplication {
 	private SiddhiAppRuntime siddhiAppRuntime;
 	private Map<String, InputHandler> inputHandlerMap = new HashMap<String, InputHandler>();
 
-	public void runApp(String[] inputStreamNames, String outputStreamName, String streamImplementation) {
+	public void runApp(String[] inputStreamNames, String outputStreamName, String streamImplementation) throws SiddhiAppCreationException {
 		//Siddhi Application
 		String siddhiApp = streamImplementation;
 

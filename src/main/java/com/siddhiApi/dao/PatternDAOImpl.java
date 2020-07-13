@@ -6,6 +6,7 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.inMemoryStorage.PatternsDatabase;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
+import io.siddhi.core.exception.SiddhiAppCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class PatternDAOImpl implements PatternDAO {
 
 	private PatternsDatabase patternsDatabase = PatternsDatabase.getPatternsDatabase();
 
-	public void runPattern(Pattern pattern) throws DuplicatedEntity {
+	public void runPattern(Pattern pattern) throws DuplicatedEntity, SiddhiAppCreationException {
 		// TODO Auto-generated method stub
 		patternsDatabase.addPattern(pattern);
 		SiddhiApplicationManager.runApp(
@@ -42,8 +43,8 @@ public class PatternDAOImpl implements PatternDAO {
 	}
 
 	@Override
-	public Pattern getPattern(String id) throws NotFoundException {
-		return patternsDatabase.getPattern(id);
+	public Pattern getPattern(String patternName) throws NotFoundException {
+		return patternsDatabase.getPattern(patternName);
 	}
 
 	@Override
@@ -51,10 +52,17 @@ public class PatternDAOImpl implements PatternDAO {
 		return SiddhiApplicationManager.applications();
 	}
 
-	public void stopPattern(String patternName) {
-		// TODO Auto-generated method stub
+	@Override
+	public void removePattern(String patternName) throws NotFoundException {
+		patternsDatabase.removePattern(patternName);
 		SiddhiApplicationManager.stopApp(patternName);
 	}
+
+
+	/*public void stopPattern(String patternName) {
+		// TODO Auto-generated method stub
+		SiddhiApplicationManager.stopApp(patternName);
+	}*/
 
 
 	public void sendEvent(String streamName, Object[] event) {

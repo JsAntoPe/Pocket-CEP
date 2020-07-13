@@ -5,6 +5,7 @@ import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
+import io.siddhi.core.exception.SiddhiAppCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,11 @@ public class PatternServiceImpl implements PatternService {
         return patternDAO.getPatternsRunning();
     }
 
-    @Override
+    /*@Override
     public void stopPattern(String appName) {
         patternDAO.stopPattern(appName);
         //streamStructureDAO.removeStructure(streamName);
-    }
+    }*/
 
     @Override
     public Pattern[] getPatterns() {
@@ -61,15 +62,28 @@ public class PatternServiceImpl implements PatternService {
         return patternDAO.getPattern(id);
     }
 
-    /*@Override
-    public void sendEvent(String streamName, CustomEvent event) throws Exception{
-        EventStructure eventStructure = streamStructureDAO.getStructure(streamName);
-        Object[] arrayFormedEvent;
-        try{
-            arrayFormedEvent = new CustomEventToObjectArray().parseCustomEventToObjectArray(event, eventStructure);
-        }catch (Exception e){
-            throw e;
+    @Override
+    public void updatePattern(String patternName, Pattern patternToUpdate) throws NotFoundException, Exception {
+        Pattern patternToBeRestoredInCaseRollback = patternDAO.getPattern(patternName);
+        try {
+            this.removePattern(patternName);
+            logger.info("Pattern removed");
+            this.runPattern(patternToUpdate);
+        } catch (NotFoundException e) {
+            throw new NotFoundException("The patterns was not found.");
+        } catch (SiddhiAppCreationException e) {
+            patternDAO.removePattern(patternToUpdate.getPatternName());
+            patternDAO.runPattern(patternToBeRestoredInCaseRollback);
+            throw new SiddhiAppCreationException(e);
+        } catch (Exception e) {
+            patternDAO.runPattern(patternToBeRestoredInCaseRollback);
+            throw new Exception(e);
         }
-        siddhiDAO.sendEvent(streamName, arrayFormedEvent);
-    }*/
+    }
+
+    @Override
+    public void removePattern(String patternName) throws NotFoundException {
+        patternDAO.removePattern(patternName);
+        PatternCodeChecker.removePropertyOrderedInstance(patternName);
+    }
 }

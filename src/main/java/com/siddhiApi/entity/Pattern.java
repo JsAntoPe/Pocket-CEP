@@ -1,5 +1,7 @@
 package com.siddhiApi.entity;
 
+import java.util.Objects;
+
 public class Pattern {
 	private String patternName, outputStreamName, patternCode;
 
@@ -43,6 +45,19 @@ public class Pattern {
 
 	public void setPatternCode(String patternCode) {
 		this.patternCode = patternCode;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Pattern pattern = (Pattern) o;
+		return patternName.equals(pattern.patternName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(patternName);
 	}
 
 	/*public List<String> getInputStreamNames() {

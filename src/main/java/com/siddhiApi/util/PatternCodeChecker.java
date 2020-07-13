@@ -61,4 +61,8 @@ public class PatternCodeChecker {
         }
         propertyOrderedDatabase.addOutputStreamPropertiesOrdered(pattern.getOutputStreamName(), propertiesSorted);
     }
+
+    public static void removePropertyOrderedInstance(String patternName) {
+        propertyOrderedDatabase.removeOutputStreamPropertiesOrdered(patternName);
+    }
 }

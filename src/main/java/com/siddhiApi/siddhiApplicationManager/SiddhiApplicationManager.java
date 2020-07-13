@@ -1,6 +1,7 @@
 package com.siddhiApi.siddhiApplicationManager;
 
 import com.siddhiApi.exceptions.DuplicatedEntity;
+import io.siddhi.core.exception.SiddhiAppCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,15 +15,20 @@ public class SiddhiApplicationManager {
 	private static final Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	private static final Map<String, List<String>> inputStreamInApplication = new HashMap<>();
 
-	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity {
+	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity, SiddhiAppCreationException {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
 		logger.info("applicationName: " + applicationName);
 		if(applications.containsKey(applicationName)){
 			logger.info("applicationName already appears: " + applicationName);
 			throw new DuplicatedEntity("A pattern with that name already exists.");
 		}
-		applications.put(applicationName, new RunSiddhiApplication());
-		applications.get(applicationName).runApp(inputStreamNames, outputStreamName, streamImplementation);
+		try{
+			applications.put(applicationName, new RunSiddhiApplication());
+			applications.get(applicationName).runApp(inputStreamNames, outputStreamName, streamImplementation);
+		}catch(SiddhiAppCreationException e){
+			applications.remove(applicationName);
+			throw new SiddhiAppCreationException(e);
+		}
 		for(String inputStreamName: inputStreamNames){
 			addApplicationToInputStream(inputStreamName, applicationName);
 		}
@@ -30,11 +36,13 @@ public class SiddhiApplicationManager {
 
 	//TODO Refactor this function, so it does not take n power n time. And it can do it in n.
 	public static void stopApp(String app) {
-		applications.get(app).stopApp();
-		applications.remove(app);
-		for (String key: inputStreamInApplication.keySet()){
-			if(inputStreamInApplication.get(key).contains(app)){
-				removeApplicationFromInputStream(key, app);
+		if (applications.containsKey(app)){
+			applications.get(app).stopApp();
+			applications.remove(app);
+			for (String key : inputStreamInApplication.keySet()) {
+				if (inputStreamInApplication.get(key).contains(app)) {
+					removeApplicationFromInputStream(key, app);
+				}
 			}
 		}
 	}
@@ -68,6 +76,7 @@ public class SiddhiApplicationManager {
 		if (inputStreamInApplication.get(inputStreamName).size() == 0){
 			inputStreamInApplication.remove(inputStreamName);
 		}
-
 	}
+
+
 }

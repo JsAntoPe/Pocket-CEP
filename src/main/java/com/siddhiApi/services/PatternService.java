@@ -10,11 +10,15 @@ public interface PatternService {
 
     List<String> getPatternsRunning();
 
-    void stopPattern(String patternName);
+    //void stopPattern(String patternName);
 
     Pattern[] getPatterns();
 
     Pattern getPattern(String id) throws NotFoundException;
+
+    void updatePattern(String patternName, Pattern patternToUpdate) throws Exception;
+
+    void removePattern(String patternName) throws NotFoundException;
 
     //void sendEvent(String streamName, CustomEvent event) throws Exception;
 }

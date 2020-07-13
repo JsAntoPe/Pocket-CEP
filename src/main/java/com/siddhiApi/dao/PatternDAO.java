@@ -11,11 +11,13 @@ public interface PatternDAO {
 
 	Pattern[] getPatterns();
 
-	Pattern getPattern(String id) throws NotFoundException;
+	Pattern getPattern(String patternName) throws NotFoundException;
 
 	List<String> getPatternsRunning();
 
-	void stopPattern(String patternName);
+	void removePattern(String patternName) throws NotFoundException;
+
+	//void stopPattern(String patternName);
 	
 	void sendEvent(String streamName, Object[] event);
 }

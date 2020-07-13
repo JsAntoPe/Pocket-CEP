@@ -50,29 +50,24 @@ public class PatternsController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
 		}
 	}
-	/*@GetMapping("/streamsRunning")
-	public String getStreamsRunning(){
-		List<String> appsRunning;
-		appsRunning = applicationService.getApplicationsRunning();
-		if (appsRunning.size() > 0)
-			return appsRunning.stream().reduce("Apps running: ", (s1, s2) -> s1 + "\n" + s2);
-		else
-			return "No applications running at the moment.";
-	}*/
-	
-	/*@PostMapping("/sendEvent/{nameApp}")
-	public void sendEvent(@PathVariable String nameApp, @RequestBody Event event) {
-		//logger.info(Arrays.toString(event));
-		applicationService.sendEvent(nameApp, event);
-	}*/
 
-	/*@PostMapping("/secondSendEvent/{streamName}")
-	public void secondSendEvent(@PathVariable String streamName, @RequestBody CustomEvent event){
+	@PutMapping("/{id}")
+	public void updatePattern(@PathVariable String id, @RequestBody Pattern patternToUpdate){
 		try {
-			applicationService.sendEvent(streamName, event);
+			patternService.updatePattern(id, patternToUpdate);
+		} catch (NotFoundException notFoundException){
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, notFoundException);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("There was a exception: " + e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
 		}
-	}*/
+	}
+
+	@DeleteMapping("/{id}")
+	public void deletePattern(@PathVariable String id){
+		try {
+			patternService.removePattern(id);
+		} catch (NotFoundException notFoundException) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, notFoundException);
+		}
+	}
 }
