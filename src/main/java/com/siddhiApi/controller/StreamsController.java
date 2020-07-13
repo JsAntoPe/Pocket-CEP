@@ -93,4 +93,13 @@ public class StreamsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The resource could not be found." , notFoundException);
         }
     }
+
+    @DeleteMapping(value = "/{streamID}/subscriptions/{id}")
+    public void deleteStreamSubscription(@PathVariable String streamID, @PathVariable String id){
+        try {
+            streamService.unsubscribe(streamID, id);
+        } catch (NotFoundException notFoundException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The resource could not be found." , notFoundException);
+        }
+    }
 }

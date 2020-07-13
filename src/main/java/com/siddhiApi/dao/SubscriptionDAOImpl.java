@@ -5,8 +5,6 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.inMemoryStorage.SubscriptionsDatabase;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class SubscriptionDAOImpl implements SubscriptionDAO{
 
@@ -34,8 +32,8 @@ public class SubscriptionDAOImpl implements SubscriptionDAO{
     }
 
     @Override
-    public String unsubscribe(String streamID, String subscriptionID) {
-        return null;
+    public void unsubscribe(String streamID, String subscriptionID) throws NotFoundException {
+        subscriptionsDatabase.removeStreamSubscription(streamID, subscriptionID);
     }
 
     @Override

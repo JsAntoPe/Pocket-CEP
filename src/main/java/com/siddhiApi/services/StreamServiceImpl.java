@@ -88,6 +88,11 @@ public class StreamServiceImpl implements StreamService{
         return subscriptionDAO.getSubscription(streamID, id);
     }
 
+    @Override
+    public void unsubscribe(String streamID, String subscriptionID) throws NotFoundException {
+        subscriptionDAO.unsubscribe(streamID, subscriptionID);
+    }
+
     /*@Override
     public String getStreamSubscriptionsToString(String streamID) {
         return subscriptionDAO.getSubscriptionsToString(streamID);

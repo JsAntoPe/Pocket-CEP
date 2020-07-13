@@ -25,5 +25,7 @@ public interface StreamService {
 
     Subscription getSubscription(String streamID, String id) throws NotFoundException;
 
+    void unsubscribe(String streamID, String subscriptionID) throws NotFoundException;
+
     //String getStreamSubscriptionsToString(String streamID);
 }

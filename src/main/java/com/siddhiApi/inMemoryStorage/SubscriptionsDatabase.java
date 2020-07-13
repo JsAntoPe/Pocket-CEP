@@ -29,16 +29,28 @@ public class SubscriptionsDatabase {
         streamSubscriptions.get(streamID).add(subscription);
     }
 
-    public void removeStreamSubscription(String streamID, Subscription subscription) throws NotFoundException {
+    public void removeStreamSubscription(String streamID, String subscriptionID) throws NotFoundException {
         if(!streamSubscriptions.containsKey(streamID)){
             throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
         }
-        if(!streamSubscriptions.get(streamID).contains(subscription)){
+        List<Subscription> subscriptionsOfTheStream = streamSubscriptions.get(streamID);
+        if (subscriptionsOfTheStream == null || subscriptionsOfTheStream.size() == 0){
+            throw new NotFoundException("The stream does not have any subscription");
+        }
+        int indexOfSubscription = -1;
+        for(Subscription subscription: subscriptionsOfTheStream){
+            if (subscription.getIdentifier().equals(subscriptionID)){
+                indexOfSubscription = subscriptionsOfTheStream.indexOf(subscription);
+            }
+        }
+        if (indexOfSubscription == -1){
             throw new NotFoundException("This stream does not have this subscriber.");
         }
-        streamSubscriptions.get(streamID).remove(subscription);
-        if(streamSubscriptions.get(streamID).size() == 0){
-            streamSubscriptions.remove(streamID);
+        else{
+            streamSubscriptions.get(streamID).remove(indexOfSubscription);
+            if(streamSubscriptions.get(streamID).size() == 0){
+                streamSubscriptions.remove(streamID);
+            }
         }
     }
 
