@@ -22,8 +22,8 @@ public class StreamDatabase {
         streams = new HashMap<>();
     }
 
-    public Map<String, Stream> getStreams() {
-        return streams;
+    public Stream[] getStreams() {
+        return streams.values().toArray(new Stream[0]);
     }
 
     public void setStreams(Map<String, Stream> streams) {

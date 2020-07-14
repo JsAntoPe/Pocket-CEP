@@ -18,6 +18,11 @@ public class StreamDAOImpl implements StreamDAO{
     }
 
     @Override
+    public Stream[] getStreams() {
+        return streamDatabase.getStreams();
+    }
+
+    @Override
     public Stream getStream(String stream) throws NotFoundException {
         return streamDatabase.getStream(stream);
     }

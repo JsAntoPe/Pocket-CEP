@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Arrays;
+
 @RestController
 @RequestMapping(value = "/api/v1/streams")
 public class StreamsController {
@@ -35,6 +37,13 @@ public class StreamsController {
         } catch (DuplicatedEntity duplicatedEntity) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null , duplicatedEntity);
         }
+    }
+
+    @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String[] getStream(){
+        return Arrays.stream(streamService.getStreams())
+                .map(Stream::getStreamID)
+                .toArray(String[]::new);
     }
 
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)

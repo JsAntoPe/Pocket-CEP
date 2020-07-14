@@ -44,6 +44,11 @@ public class StreamServiceImpl implements StreamService{
     }
 
     @Override
+    public Stream[] getStreams() {
+        return streamDAO.getStreams();
+    }
+
+    @Override
     public Stream getStream(String stream) throws NotFoundException {
         return streamDAO.getStream(stream);
     }

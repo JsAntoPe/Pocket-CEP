@@ -12,6 +12,8 @@ import org.everit.json.schema.ValidationException;
 public interface StreamService {
     void createStream(Stream stream) throws DuplicatedEntity;
 
+    Stream[] getStreams();
+
     Stream getStream(String stream) throws NotFoundException;
 
     void removeStream(String stream) throws NotFoundException, StreamOnUseException;
@@ -27,6 +29,8 @@ public interface StreamService {
     void unsubscribe(String streamID, String subscriptionID) throws NotFoundException;
 
     void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException;
+
+
 
     //String getStreamSubscriptionsToString(String streamID);
 }
