@@ -94,6 +94,7 @@ public class StreamServiceImpl implements StreamService{
         }
     }
 
+    @Override
     public Subscription subscribe(String streamID, Subscription subscription) throws NotFoundException {
         Stream stream = this.getStream(streamID);
         return subscriptionDAO.subscribe(streamID, subscription);
