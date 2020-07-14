@@ -46,7 +46,7 @@ public class StreamsController {
         }
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{name}")
     public void removeStream(@PathVariable String name){
         try {
@@ -97,6 +97,7 @@ public class StreamsController {
         }
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{streamID}/subscriptions/{id}")
     public void deleteStreamSubscription(@PathVariable String streamID, @PathVariable String id){
         try {
@@ -106,6 +107,7 @@ public class StreamsController {
         }
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{streamID}/subscriptions/{subscriptionID}")
     public void updateStreamSubscription(@PathVariable String streamID, @PathVariable String subscriptionID, @RequestBody Subscription subscription){
         try {

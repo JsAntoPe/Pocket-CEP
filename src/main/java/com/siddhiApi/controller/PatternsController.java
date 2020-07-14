@@ -51,6 +51,7 @@ public class PatternsController {
 		}
 	}
 
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}")
 	public void updatePattern(@PathVariable String id, @RequestBody Pattern patternToUpdate){
 		try {
@@ -62,6 +63,7 @@ public class PatternsController {
 		}
 	}
 
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void deletePattern(@PathVariable String id){
 		try {
