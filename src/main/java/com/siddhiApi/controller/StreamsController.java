@@ -105,4 +105,13 @@ public class StreamsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The resource could not be found." , notFoundException);
         }
     }
+
+    @PutMapping(value = "/{streamID}/subscriptions/{subscriptionID}")
+    public void updateStreamSubscription(@PathVariable String streamID, @PathVariable String subscriptionID, @RequestBody Subscription subscription){
+        try {
+            streamService.updateSubscription(streamID, subscriptionID, subscription);
+        } catch (NotFoundException notFoundException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The resource could not be found." , notFoundException);
+        }
+    }
 }

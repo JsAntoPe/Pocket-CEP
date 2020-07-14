@@ -8,8 +8,6 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.StreamOnUseException;
 import org.everit.json.schema.ValidationException;
 
-import java.util.List;
-
 
 public interface StreamService {
     void createStream(Stream stream) throws DuplicatedEntity;
@@ -27,6 +25,8 @@ public interface StreamService {
     Subscription getSubscription(String streamID, String id) throws NotFoundException;
 
     void unsubscribe(String streamID, String subscriptionID) throws NotFoundException;
+
+    void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException;
 
     //String getStreamSubscriptionsToString(String streamID);
 }

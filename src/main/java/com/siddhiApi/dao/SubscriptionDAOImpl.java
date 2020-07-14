@@ -41,4 +41,10 @@ public class SubscriptionDAOImpl implements SubscriptionDAO{
         subscriptionsDatabase.removeAllStreamSubscriptions(streamID);
     }
 
+    @Override
+    public void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException {
+        subscriptionsDatabase.updateSubscription(streamID, subscriptionID, subscription);
+    }
+
+
 }

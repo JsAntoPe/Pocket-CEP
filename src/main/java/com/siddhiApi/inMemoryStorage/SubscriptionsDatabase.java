@@ -29,6 +29,19 @@ public class SubscriptionsDatabase {
         streamSubscriptions.get(streamID).add(subscription);
     }
 
+    private int getSubscriptionIndexInList(List<Subscription> subscriptionsOfTheStream, String subscriptionID) throws NotFoundException {
+        int subscriptionIndex = -1;
+        for(Subscription subscription: subscriptionsOfTheStream){
+            if (subscription.getIdentifier().equals(subscriptionID)){
+                subscriptionIndex = subscriptionsOfTheStream.indexOf(subscription);
+            }
+        }
+        if (subscriptionIndex == -1){
+            throw new NotFoundException("This stream does not have this subscriber.");
+        }
+        return subscriptionIndex;
+    }
+
     public void removeStreamSubscription(String streamID, String subscriptionID) throws NotFoundException {
         if(!streamSubscriptions.containsKey(streamID)){
             throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
@@ -37,20 +50,10 @@ public class SubscriptionsDatabase {
         if (subscriptionsOfTheStream == null || subscriptionsOfTheStream.size() == 0){
             throw new NotFoundException("The stream does not have any subscription");
         }
-        int indexOfSubscription = -1;
-        for(Subscription subscription: subscriptionsOfTheStream){
-            if (subscription.getIdentifier().equals(subscriptionID)){
-                indexOfSubscription = subscriptionsOfTheStream.indexOf(subscription);
-            }
-        }
-        if (indexOfSubscription == -1){
-            throw new NotFoundException("This stream does not have this subscriber.");
-        }
-        else{
-            streamSubscriptions.get(streamID).remove(indexOfSubscription);
-            if(streamSubscriptions.get(streamID).size() == 0){
-                streamSubscriptions.remove(streamID);
-            }
+        int subscriptionIndex = getSubscriptionIndexInList(subscriptionsOfTheStream, subscriptionID);
+        streamSubscriptions.get(streamID).remove(subscriptionIndex);
+        if(streamSubscriptions.get(streamID).size() == 0){
+            streamSubscriptions.remove(streamID);
         }
     }
 
@@ -85,6 +88,16 @@ public class SubscriptionsDatabase {
         if(!streamSubscriptions.containsKey(streamID)){
             streamSubscriptions.remove(streamID);
         }
+    }
+
+    public void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException {
+        if(!streamSubscriptions.containsKey(streamID)){
+            throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
+        }
+        List<Subscription> subscriptionsList = streamSubscriptions.get(streamID);
+        int subscriptionIndex = getSubscriptionIndexInList(subscriptionsList, subscriptionID);
+        streamSubscriptions.get(streamID).remove(subscriptionIndex);
+        streamSubscriptions.get(streamID).add(subscription);
     }
 
     /*public String getSubscriptionsToString(String streamID) {

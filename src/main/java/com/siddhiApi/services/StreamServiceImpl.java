@@ -21,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -109,6 +107,11 @@ public class StreamServiceImpl implements StreamService{
     @Override
     public void unsubscribe(String streamID, String subscriptionID) throws NotFoundException {
         subscriptionDAO.unsubscribe(streamID, subscriptionID);
+    }
+
+    @Override
+    public void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException {
+        subscriptionDAO.updateSubscription(streamID, subscriptionID, subscription);
     }
 
     /*@Override
