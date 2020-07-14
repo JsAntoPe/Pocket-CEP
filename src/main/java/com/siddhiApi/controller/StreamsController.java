@@ -88,7 +88,7 @@ public class StreamsController {
         try {
             return streamService.subscribe(streamID, subscription);
         } catch (NotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The subscription could not be found." , e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
         }
     }
 
