@@ -66,7 +66,9 @@ public class SubscriptionsDatabase {
         if(!streamSubscriptions.containsKey(streamID)){
             return new Subscription[0];
         }
-        return streamSubscriptions.get(streamID).toArray(new Subscription[streamSubscriptions.size()]);
+        // I don't know why it is valid with Subscription[0]
+        // The idea was new Subscription[streamSubscriptions.get(streamID).size()]
+        return streamSubscriptions.get(streamID).toArray(new Subscription[0]);
     }
 
     public Subscription getSubscription(String streamID, String id) throws NotFoundException {
