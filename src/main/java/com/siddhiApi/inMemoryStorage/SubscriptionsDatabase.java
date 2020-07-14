@@ -81,11 +81,10 @@ public class SubscriptionsDatabase {
         throw new NotFoundException("The subscription does not exist.");
     }
 
-    public void removeAllStreamSubscriptions(String streamID) throws NotFoundException {
+    public void removeAllStreamSubscriptions(String streamID) {
         if(!streamSubscriptions.containsKey(streamID)){
-            throw new NotFoundException("The stream does not exist, or it does not have any subscriptions.");
+            streamSubscriptions.remove(streamID);
         }
-        streamSubscriptions.remove(streamID);
     }
 
     /*public String getSubscriptionsToString(String streamID) {

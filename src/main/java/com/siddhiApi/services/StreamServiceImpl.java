@@ -3,10 +3,12 @@ package com.siddhiApi.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siddhiApi.dao.*;
+import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.StreamOnUseException;
 import com.siddhiApi.util.Parsers;
 import com.siddhiApi.webhook.WebhookMediator;
 import org.everit.json.schema.ValidationException;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -46,10 +50,24 @@ public class StreamServiceImpl implements StreamService{
         return streamDAO.getStream(stream);
     }
 
+    private boolean streamBeingUsed(Pattern pattern, String stream){
+        return pattern.getOutputStreamName().equals(stream) || Arrays.asList(pattern.getInputStreamNames()).contains(stream);
+    }
+
     @Override
-    public void removeStream(String stream) throws NotFoundException {
-        streamDAO.removeStream(stream);
+    public void removeStream(String stream) throws NotFoundException, StreamOnUseException {
+        Pattern[] patterns = patternDAO.getPatterns();
+        Pattern[] patternsUsingStream = Arrays.stream(patterns)
+                .filter(pattern -> streamBeingUsed(pattern, stream))
+                .toArray(Pattern[]::new);
+
+        if (patternsUsingStream.length > 0){
+            Optional<String> listOfPatterns = Arrays.stream(patternsUsingStream).map(Pattern::getPatternName).reduce((pattern1, pattern2) -> pattern1 + "\n" + pattern2);
+            throw new StreamOnUseException("The stream is being used, and so it cannot be removed. The patterns using this stream are: " + listOfPatterns.get());
+        }
         subscriptionDAO.removeAllSubscriptionsOfAStream(stream);
+        streamDAO.removeStream(stream);
+
     }
 
     @Override

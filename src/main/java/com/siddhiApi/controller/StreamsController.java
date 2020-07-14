@@ -5,6 +5,7 @@ import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.StreamOnUseException;
 import com.siddhiApi.services.StreamService;
 
 import org.everit.json.schema.ValidationException;
@@ -52,6 +53,8 @@ public class StreamsController {
             streamService.removeStream(name);
         } catch (NotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The stream could not be found." , e);
+        } catch (StreamOnUseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
         }
     }
 

@@ -5,6 +5,7 @@ import com.siddhiApi.entity.Stream;
 import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.StreamOnUseException;
 import org.everit.json.schema.ValidationException;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface StreamService {
 
     Stream getStream(String stream) throws NotFoundException;
 
-    void removeStream(String stream) throws NotFoundException;
+    void removeStream(String stream) throws NotFoundException, StreamOnUseException;
 
     void sendEvent(String stream, Object event) throws ValidationException, JsonProcessingException, NotFoundException;
 

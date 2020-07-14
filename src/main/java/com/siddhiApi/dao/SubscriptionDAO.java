@@ -12,7 +12,7 @@ public interface SubscriptionDAO {
 
     void unsubscribe(String streamID, String subscriptionID) throws NotFoundException;
 
-    void removeAllSubscriptionsOfAStream(String streamID) throws NotFoundException;
+    void removeAllSubscriptionsOfAStream(String streamID);
 
     //String getSubscriptionsToString(String streamID);
 }

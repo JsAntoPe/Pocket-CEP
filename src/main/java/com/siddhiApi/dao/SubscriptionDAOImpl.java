@@ -37,7 +37,7 @@ public class SubscriptionDAOImpl implements SubscriptionDAO{
     }
 
     @Override
-    public void removeAllSubscriptionsOfAStream(String streamID) throws NotFoundException {
+    public void removeAllSubscriptionsOfAStream(String streamID) {
         subscriptionsDatabase.removeAllStreamSubscriptions(streamID);
     }
 
