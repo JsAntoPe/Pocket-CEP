@@ -47,7 +47,7 @@ public class PatternsController {
 		try {
 			return patternService.getPattern(id);
 		} catch (NotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, e);
 		}
 	}
 
