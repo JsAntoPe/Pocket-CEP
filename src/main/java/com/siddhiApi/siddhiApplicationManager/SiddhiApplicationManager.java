@@ -1,7 +1,10 @@
 package com.siddhiApi.siddhiApplicationManager;
 
 import com.siddhiApi.exceptions.DuplicatedEntity;
+import com.siddhiApi.exceptions.SiddhiAppException;
 import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
+import io.siddhi.query.compiler.exception.SiddhiParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +18,7 @@ public class SiddhiApplicationManager {
 	private static final Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	private static final Map<String, List<String>> inputStreamInApplication = new HashMap<>();
 
-	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity, SiddhiAppCreationException {
+	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity, SiddhiAppException {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
 		logger.info("applicationName: " + applicationName);
 		if(applications.containsKey(applicationName)){
@@ -25,9 +28,9 @@ public class SiddhiApplicationManager {
 		try{
 			applications.put(applicationName, new RunSiddhiApplication());
 			applications.get(applicationName).runApp(inputStreamNames, outputStreamName, streamImplementation);
-		}catch(SiddhiAppCreationException e){
+		}catch(SiddhiAppCreationException | SiddhiParserException | SiddhiAppValidationException e){
 			applications.remove(applicationName);
-			throw new SiddhiAppCreationException(e);
+			throw new SiddhiAppException(e);
 		}
 		for(String inputStreamName: inputStreamNames){
 			addApplicationToInputStream(inputStreamName, applicationName);

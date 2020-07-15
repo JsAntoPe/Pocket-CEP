@@ -3,10 +3,13 @@ package com.siddhiApi.dao;
 
 import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.exceptions.SiddhiAppException;
 import com.siddhiApi.inMemoryStorage.PatternsDatabase;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
 import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.query.api.exception.SiddhiAppValidationException;
+import io.siddhi.query.compiler.exception.SiddhiParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,15 +23,26 @@ public class PatternDAOImpl implements PatternDAO {
 
 	private PatternsDatabase patternsDatabase = PatternsDatabase.getPatternsDatabase();
 
-	public void runPattern(Pattern pattern) throws DuplicatedEntity, SiddhiAppCreationException {
+	public void runPattern(Pattern pattern) throws DuplicatedEntity, SiddhiAppException {
 		// TODO Auto-generated method stub
 		patternsDatabase.addPattern(pattern);
-		SiddhiApplicationManager.runApp(
-				pattern.getPatternName(),
-				pattern.getInputStreamNames(),
-				pattern.getOutputStreamName(),
-				pattern.getPatternCode()
-		);
+		try{
+			SiddhiApplicationManager.runApp(
+					pattern.getPatternName(),
+					pattern.getInputStreamNames(),
+					pattern.getOutputStreamName(),
+					pattern.getPatternCode()
+			);
+		}catch(SiddhiAppException e){
+			try {
+				logger.info("Removing pattern.");
+				patternsDatabase.removePattern(pattern.getPatternName());
+			} catch (NotFoundException notFoundException) {
+				notFoundException.printStackTrace();
+			}
+			throw new SiddhiAppException(e);
+		}
+
 		logger.info("Pattern Name: " + pattern.getPatternName());
 		for (String inputStream: pattern.getInputStreamNames()){
 			logger.info("Pattern Input Stream Name: " + inputStream);
