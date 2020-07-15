@@ -26,17 +26,11 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {
-        /*logger.info(pattern.getPatternCode());
-
-        JSONObject patternSchema = new JSONObject("src/main/resources/PatternJSONSchema");
-
-        ObjectMapper mapper = new ObjectMapper();
-        JSONObject introducedPatternSchema = new JSONObject(mapper.writeValueAsString(pattern));
-        logger.info("Introduced Pattern Schema: " + introducedPatternSchema);
-        Schema schema = SchemaLoader.load(patternSchema);
-        schema.validate(introducedPatternSchema);
-        */
-        pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
+        try{
+            pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
+        }catch(NullPointerException e){
+            throw new NullPointerException("There is a missing parameter in pattern.");
+        }
         PatternCodeChecker.outputStreamCheck(pattern);
         patternDAO.runPattern(pattern);
     }
@@ -46,11 +40,6 @@ public class PatternServiceImpl implements PatternService {
         return patternDAO.getPatternsRunning();
     }
 
-    /*@Override
-    public void stopPattern(String appName) {
-        patternDAO.stopPattern(appName);
-        //streamStructureDAO.removeStructure(streamName);
-    }*/
 
     @Override
     public Pattern[] getPatterns() {
