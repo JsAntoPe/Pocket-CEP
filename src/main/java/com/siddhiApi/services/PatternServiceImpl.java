@@ -2,6 +2,7 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.PatternDAO;
 import com.siddhiApi.entity.Pattern;
+import com.siddhiApi.entity.Stream;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
@@ -20,9 +21,6 @@ public class PatternServiceImpl implements PatternService {
 
     @Autowired
     private PatternDAO patternDAO;
-
-    /*@Autowired
-    private StreamStructureDAO streamStructureDAO;*/
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {

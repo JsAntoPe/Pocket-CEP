@@ -38,8 +38,28 @@ public class StreamServiceImpl implements StreamService{
     @Autowired
     private final PatternDAO patternDAO = new PatternDAOImpl();
 
+    private void validateStream(Stream stream) throws NullPointerException{
+        try{
+            stream.getStreamID();
+            stream.getJsonSchema();
+        }catch(NullPointerException e){
+            throw new NullPointerException("There is a missing parameter in stream.");
+        }
+    }
+
+    private void validateSubscription(Subscription subscription) throws NullPointerException{
+        try{
+            subscription.getWebhook();
+            subscription.getMethod();
+        }catch(NullPointerException e){
+            throw new NullPointerException("There is a missing parameter in subscription.");
+        }
+    }
+
+
     @Override
     public void createStream(Stream stream) throws DuplicatedEntity {
+        validateStream(stream);
         streamDAO.createStream(stream);
     }
 
@@ -96,6 +116,7 @@ public class StreamServiceImpl implements StreamService{
 
     @Override
     public Subscription subscribe(String streamID, Subscription subscription) throws NotFoundException {
+        validateSubscription(subscription);
         Stream stream = this.getStream(streamID);
         return subscriptionDAO.subscribe(streamID, subscription);
     }
@@ -117,6 +138,7 @@ public class StreamServiceImpl implements StreamService{
 
     @Override
     public void updateSubscription(String streamID, String subscriptionID, Subscription subscription) throws NotFoundException {
+        validateSubscription(subscription);
         subscriptionDAO.updateSubscription(streamID, subscriptionID, subscription);
     }
 
