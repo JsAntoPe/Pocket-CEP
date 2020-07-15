@@ -57,6 +57,7 @@ public class PatternServiceImpl implements PatternService {
             logger.info("Pattern removed");
             this.runPattern(patternToUpdate);
         } catch (NotFoundException e) {
+            patternDAO.runPattern(patternToBeRestoredInCaseRollback);
             throw new NotFoundException("The patterns was not found.");
         } catch (SiddhiAppCreationException e) {
             patternDAO.removePattern(patternToUpdate.getPatternName());
