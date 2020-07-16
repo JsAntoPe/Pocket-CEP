@@ -22,7 +22,7 @@ public interface StreamService {
 
     Subscription subscribe(String streamID, Subscription subscription) throws NotFoundException;
 
-    Subscription[] getSubscriptions(String streamID);
+    Subscription[] getSubscriptions(String streamID) throws NotFoundException;
 
     Subscription getSubscription(String streamID, String id) throws NotFoundException;
 

@@ -122,17 +122,20 @@ public class StreamServiceImpl implements StreamService{
     }
 
     @Override
-    public Subscription[] getSubscriptions(String streamID) {
+    public Subscription[] getSubscriptions(String streamID) throws NotFoundException {
+        Stream stream = this.getStream(streamID);
         return subscriptionDAO.getSubscriptions(streamID);
     }
 
     @Override
     public Subscription getSubscription(String streamID, String id) throws NotFoundException {
+        Stream stream = this.getStream(streamID);
         return subscriptionDAO.getSubscription(streamID, id);
     }
 
     @Override
     public void unsubscribe(String streamID, String subscriptionID) throws NotFoundException {
+        Stream stream = this.getStream(streamID);
         subscriptionDAO.unsubscribe(streamID, subscriptionID);
     }
 
