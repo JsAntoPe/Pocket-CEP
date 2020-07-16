@@ -17,9 +17,9 @@ public class PatternCodeChecker {
 
     static Logger logger = LoggerFactory.getLogger(PatternCodeChecker.class);
 
-    private static StreamService streamService = new StreamServiceImpl();
+    private static final StreamService streamService = new StreamServiceImpl();
 
-    private static PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
+    private static final PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
 
     public static void outputStreamCheck(Pattern pattern) throws NotFoundException, PropertyNotFoundOnSelect {
         String lastControlStatement;
