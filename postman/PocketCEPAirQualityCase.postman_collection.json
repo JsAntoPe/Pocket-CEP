@@ -42,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/\",\n    \"method\": \"POST\"\n}",
+					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/{{APIEcho}}\",\n    \"method\": \"POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -134,7 +134,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/\",\n    \"method\": \"POST\"\n}",
+					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/{{APIEcho}}\",\n    \"method\": \"POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -196,7 +196,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/\",\n    \"method\": \"POST\"\n}",
+					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/{{APIEcho}}\",\n    \"method\": \"POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -258,7 +258,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/\",\n    \"method\": \"POST\"\n}",
+					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/{{APIEcho}}\",\n    \"method\": \"POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

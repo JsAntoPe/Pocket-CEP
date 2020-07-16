@@ -133,7 +133,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"webhook\": \"http://127.0.0.1:8081\",\n    \"method\": \"POST\"\n}",
+					"raw": "{\n    \"webhook\": \"https://api-echo.herokuapp.com/echo/{{APIEcho}}\",\n    \"method\": \"POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
