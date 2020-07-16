@@ -40,7 +40,6 @@ public class PatternCodeChecker {
                     .matcher(pattern.getPatternCode());
             logger.info("Pattern: " + "select.*(" + property +").*" + lastControlStatement);
             if(matcher.find()){
-                logger.info("What matcher has found: " + pattern.getPatternCode().substring(183));
                 int firstMatch = matcher.start(1); //By writing 1 here, we achieve that JAVA only looks for what it is between the parenthesis.
                 propertyFirstAppearancePriorityQueue.add(new PropertyFirstAppearance(property, firstMatch));
             } else {
