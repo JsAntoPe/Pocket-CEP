@@ -4,6 +4,8 @@ A microservice project, based on [Siddhi](https://siddhi.io/), to handle complex
 
 ## Installation
 
+Pocket-CEP can be run in a docker container. It is recommended that you run the docker as a demon. In order to run an instance, use the following command:
+
 ```
-docker run -p 9999:9999 pocket-cep
+docker run -d -p 9999:9999 jsantope/pocket-cep
 ```
