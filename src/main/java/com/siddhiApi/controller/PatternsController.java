@@ -69,7 +69,7 @@ public class PatternsController {
 		try {
 			patternService.removePattern(id);
 		} catch (NotFoundException notFoundException) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, null, notFoundException);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, notFoundException);
 		}
 	}
 }
