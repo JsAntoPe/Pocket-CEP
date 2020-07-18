@@ -24,11 +24,7 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {
-        try{
-            pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
-        }catch(NullPointerException e){
-            throw new NullPointerException("There is a missing parameter in pattern.");
-        }
+        pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
         PatternCodeChecker.outputStreamCheck(pattern);
         patternDAO.runPattern(pattern);
     }

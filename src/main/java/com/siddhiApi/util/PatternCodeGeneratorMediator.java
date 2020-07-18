@@ -17,6 +17,9 @@ public class PatternCodeGeneratorMediator {
 
     public static String getFullApplicationCode(Pattern pattern) throws NotFoundException {
         String applicationCode = "";
+        if(pattern.getInputStreamNames().length == 0){
+            throw new NotFoundException("At least one input stream must be defined.");
+        }
         for(String inputStreamName: pattern.getInputStreamNames()){
             logger.info("InputStreamName: " + inputStreamName);
             //logger.info("InputStreamName from stream itself: " + streamService.getStream(inputStreamName).getStreamID());
