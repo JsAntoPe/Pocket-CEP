@@ -46,7 +46,7 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
-    public void updatePattern(String patternName, Pattern patternToUpdate) throws NotFoundException, Exception {
+    public void updatePattern(String patternName, Pattern patternToUpdate) throws Exception {
         Pattern patternToBeRestoredInCaseRollback = patternDAO.getPattern(patternName);
         try {
             this.removePattern(patternName);
