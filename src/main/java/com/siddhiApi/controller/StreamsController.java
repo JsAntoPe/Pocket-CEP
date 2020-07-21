@@ -8,6 +8,7 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.StreamOnUseException;
 import com.siddhiApi.services.StreamService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.everit.json.schema.ValidationException;
 
 import org.slf4j.Logger;
@@ -29,6 +30,8 @@ public class StreamsController {
     @Autowired
     private StreamService streamService;
 
+
+    @Tag(name = "Streams", description = "Streams controller.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public void createStream(@RequestBody Stream stream){
@@ -39,6 +42,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Streams", description = "Streams controller.")
     @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
     public String[] getStream(){
         return Arrays.stream(streamService.getStreams())
@@ -46,6 +50,7 @@ public class StreamsController {
                 .toArray(String[]::new);
     }
 
+    @Tag(name = "Streams", description = "Streams controller.")
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getStream(@PathVariable String name){
         try {
@@ -55,6 +60,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Streams", description = "Streams controller.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{name}")
     public void removeStream(@PathVariable String name){
@@ -67,6 +73,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Streams", description = "Streams controller.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{streamID}/events")
     public void sendEvent(@PathVariable String streamID, @RequestBody Object event){
@@ -82,6 +89,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Subscriptions", description = "Subscriptions part in streams controller.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/{streamID}/subscriptions")
     public Subscription subscribe(@PathVariable String streamID, @RequestBody Subscription subscription){
@@ -92,6 +100,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Subscriptions", description = "Subscriptions part in streams controller.")
     @GetMapping(value = "/{streamID}/subscriptions")
     public Subscription[] getStreamSubscriptions(@PathVariable String streamID) {
         try {
@@ -101,6 +110,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Subscriptions", description = "Subscriptions part in streams controller.")
     @GetMapping(value = "/{streamID}/subscriptions/{id}")
     public Subscription getStreamSubscription(@PathVariable String streamID, @PathVariable String id){
         try {
@@ -110,6 +120,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Subscriptions", description = "Subscriptions part in streams controller.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{streamID}/subscriptions/{id}")
     public void deleteStreamSubscription(@PathVariable String streamID, @PathVariable String id){
@@ -120,6 +131,7 @@ public class StreamsController {
         }
     }
 
+    @Tag(name = "Subscriptions", description = "Subscriptions part in streams controller.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{streamID}/subscriptions/{subscriptionID}")
     public void updateStreamSubscription(@PathVariable String streamID, @PathVariable String subscriptionID, @RequestBody Subscription subscription){

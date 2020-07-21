@@ -3,6 +3,7 @@ package com.siddhiApi.controller;
 import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.PatternService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/patterns")
+@Tag(name="Patterns", description = "Patterns Controller.")
 public class PatternsController {
 
 	Logger logger = LoggerFactory.getLogger(PatternsController.class);
