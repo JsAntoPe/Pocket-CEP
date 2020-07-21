@@ -21,8 +21,20 @@ public class WebhookMediator {
     private static StreamService streamService = new StreamServiceImpl();
     private static PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
 
+    /*private static void toUniversalSubscriptor(String streamName, String event){
+        if (streamName == null) {
+            streamName = "fromSubscription";
+        }
+        try {
+            new Webhook("http://api-echo:8888/" + streamName, "POST", event);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }*/
+
     public static void webhookFromSiddhiApp(String streamName, Object[] data){
         String dataToJSON = dataToJSON(streamName, data);
+        //toUniversalSubscriptor(streamName, dataToJSON);
         try {
             new Webhook("http://localhost:9999/api/v1/streams/" + streamName + "/events", "POST", dataToJSON);
         } catch (MalformedURLException e) {
@@ -32,6 +44,7 @@ public class WebhookMediator {
 
     public static void webhookFromSubscription(List<Subscription> subscriptions, Object event){
         for (Subscription subscription: subscriptions){
+            //toUniversalSubscriptor(null, event.toString());
             try {
                 new Webhook(subscription.getWebhook(), subscription.getMethod(), event.toString());
             } catch (MalformedURLException e) {
