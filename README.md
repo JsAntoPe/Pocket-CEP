@@ -30,6 +30,8 @@ npx degit https://github.com/JsAntoPe/Pocket-CEP/postman simpleExample
 npx newman run simpleExample/PocketCEPAirQualityCase.postman_collection.json
 ```
 
+The postman collection used in this example: [Postman Collection](https://documenter.getpostman.com/view/9546113/T1DmEyqh).
+
 The example above will run a total of 5 streams, 4 patterns , 4 subscriptions and 3 events sent to the first stream *Air Mesurement*.
 
 The different components of the system are explained in full detail on the wiki section *[How it works](https://github.com/JsAntoPe/Pocket-CEP/wiki/How-it-works).
@@ -46,3 +48,4 @@ For testing the service, I have used Postman, writing http requests. In case you
 npx degit https://github.com/JsAntoPe/Pocket-CEP/postman simpleExample
 npx newman run simpleExample/PocketCEPTesting.postman_collection.json
 ```
+Postman collection used in the testing part:[Postman Collection](https://documenter.getpostman.com/view/9546113/T1DmEyqo).
