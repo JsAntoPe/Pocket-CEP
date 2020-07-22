@@ -8,6 +8,8 @@ import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.StreamOnUseException;
 import com.siddhiApi.services.StreamService;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.everit.json.schema.ValidationException;
 
@@ -60,6 +62,10 @@ public class StreamsController {
         }
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "There is a pattern using this stream, and so it cannot be deleted."),
+            @ApiResponse(responseCode = "404", description = "No stream with the id provided was found.")
+    })
     @Tag(name = "Streams", description = "Streams controller.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{name}")
