@@ -1,5 +1,6 @@
 package com.siddhiApi;
 
+import com.siddhiApi.multithreading.EventExecutor;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,8 @@ public class ApiRestApplication {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
+		for (int i=0; i<5;++i)
+			EventExecutor.getEventExecutor().executeConsumer();
 		SpringApplication.run(ApiRestApplication.class, args);
-	}
-
-	@GetMapping("/hello")
-	public String hello(){
-		logger.debug("Llego a hello");
-		String s = "Hello World";
-		return s;
 	}
 }

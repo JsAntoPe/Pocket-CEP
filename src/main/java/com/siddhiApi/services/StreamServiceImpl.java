@@ -9,8 +9,9 @@ import com.siddhiApi.entity.Subscription;
 import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.StreamOnUseException;
+import com.siddhiApi.multithreading.SendEventSubscriptions;
+import com.siddhiApi.multithreading.SendEventTask;
 import com.siddhiApi.util.Parsers;
-import com.siddhiApi.webhook.WebhookMediator;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONObject;
 import org.everit.json.schema.Schema;
@@ -22,10 +23,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @Service
 public class StreamServiceImpl implements StreamService{
+
+    private static final ExecutorService executorForSendEvent = Executors.newFixedThreadPool(5); //Anterior 5
+    private static final ExecutorService executorForSubscriptions = Executors.newFixedThreadPool(5); //Anterior 5
 
     Logger logger = LoggerFactory.getLogger(StreamServiceImpl.class);
 
@@ -107,11 +113,8 @@ public class StreamServiceImpl implements StreamService{
         for (Object object: eventParsed){
             logger.info("Property on event already parsed: " + object);
         }
-        patternDAO.sendEvent(stream, eventParsed);
-        Subscription[] subscriptions = this.getSubscriptions(stream);
-        if (subscriptions != null){
-            WebhookMediator.webhookFromSubscription(Arrays.asList(subscriptions), eventSchema);
-        }
+        executorForSendEvent.execute(new SendEventTask(stream, eventParsed));
+        executorForSubscriptions.execute(new SendEventSubscriptions(stream, eventSchema));
     }
 
     @Override

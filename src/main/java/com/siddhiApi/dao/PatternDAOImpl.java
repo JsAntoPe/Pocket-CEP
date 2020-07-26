@@ -5,6 +5,7 @@ import com.siddhiApi.exceptions.DuplicatedEntity;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.exceptions.SiddhiAppException;
 import com.siddhiApi.inMemoryStorage.PatternsDatabase;
+import com.siddhiApi.multithreading.EventExecutor;
 import com.siddhiApi.siddhiApplicationManager.SiddhiApplicationManager;
 import com.siddhiApi.entity.Pattern;
 import io.siddhi.core.exception.SiddhiAppCreationException;
@@ -81,6 +82,7 @@ public class PatternDAOImpl implements PatternDAO {
 
 	public void sendEvent(String streamName, Object[] event) {
 		// TODO Auto-generated method stub
-		SiddhiApplicationManager.sendEvent(streamName, event);
+		//SiddhiApplicationManager.sendEvent(streamName, event);
+		EventExecutor.getEventExecutor().executeProducer(streamName, event);
 	}
 }

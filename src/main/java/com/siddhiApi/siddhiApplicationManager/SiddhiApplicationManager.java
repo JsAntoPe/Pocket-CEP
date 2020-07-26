@@ -18,7 +18,7 @@ public class SiddhiApplicationManager {
 	private static final Map<String, RunSiddhiApplication> applications = new HashMap<String, RunSiddhiApplication>();
 	private static final Map<String, List<String>> inputStreamInApplication = new HashMap<>();
 
-	public static void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity, SiddhiAppException {
+	public static synchronized void runApp(String applicationName, String[] inputStreamNames, String outputStreamName, String streamImplementation) throws DuplicatedEntity, SiddhiAppException {
 		//String fileName = file.substring(file.lastIndexOf("\\") + 1, file.indexOf("."));
 		logger.info("applicationName: " + applicationName);
 		if(applications.containsKey(applicationName)){
@@ -38,7 +38,7 @@ public class SiddhiApplicationManager {
 	}
 
 	//TODO Refactor this function, so it does not take n power n time. And it can do it in n.
-	public static void stopApp(String app) {
+	public static synchronized void stopApp(String app) {
 		if (applications.containsKey(app)){
 			applications.get(app).stopApp();
 			applications.remove(app);
@@ -50,7 +50,7 @@ public class SiddhiApplicationManager {
 		}
 	}
 	
-	public static List<String> applications() {
+	public static synchronized List<String> applications() {
 		List<String> appsNames = new ArrayList<String>();
 		for(String name: applications.keySet())
 			appsNames.add(name);
@@ -58,7 +58,7 @@ public class SiddhiApplicationManager {
 		return appsNames;
 	}
 	
-	public static void sendEvent(String streamName, Object[] event) {
+	public static synchronized void sendEvent(String streamName, Object[] event) {
 		List<String> applicationsListContainsStream = inputStreamInApplication.get(streamName);
 		if(applicationsListContainsStream != null){
 			for (String application:applicationsListContainsStream){
@@ -67,19 +67,17 @@ public class SiddhiApplicationManager {
 		}
 	}
 
-	private static void addApplicationToInputStream(String inputStreamName, String applicationName){
+	private static synchronized void addApplicationToInputStream(String inputStreamName, String applicationName){
 		if (!inputStreamInApplication.containsKey(inputStreamName)){
 			inputStreamInApplication.put(inputStreamName, new ArrayList<>());
 		}
 		inputStreamInApplication.get(inputStreamName).add(applicationName);
 	}
 
-	private static void removeApplicationFromInputStream(String inputStreamName, String applicationName){
+	private static synchronized void removeApplicationFromInputStream(String inputStreamName, String applicationName){
 		inputStreamInApplication.get(inputStreamName).remove(applicationName);
 		if (inputStreamInApplication.get(inputStreamName).size() == 0){
 			inputStreamInApplication.remove(inputStreamName);
 		}
 	}
-
-
 }

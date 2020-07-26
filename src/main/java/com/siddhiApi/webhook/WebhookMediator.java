@@ -21,20 +21,22 @@ public class WebhookMediator {
     private static StreamService streamService = new StreamServiceImpl();
     private static PropertyOrderedDatabase propertyOrderedDatabase = PropertyOrderedDatabase.getPropertyOrderedDatabase();
 
-    /*private static void toUniversalSubscriptor(String streamName, String event){
+    private static void toUniversalSubscriptor(String streamName, String event){
         if (streamName == null) {
             streamName = "fromSubscription";
         }
         try {
-            new Webhook("http://api-echo:8888/" + streamName, "POST", event);
+            //http://localhost:8081
+            //http://172.17.0.1:8081
+            new Webhook("http://172.17.0.1:8081", "POST", event);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public static void webhookFromSiddhiApp(String streamName, Object[] data){
         String dataToJSON = dataToJSON(streamName, data);
-        //toUniversalSubscriptor(streamName, dataToJSON);
+        toUniversalSubscriptor(streamName, dataToJSON);
         try {
             new Webhook("http://localhost:9999/api/v1/streams/" + streamName + "/events", "POST", dataToJSON);
         } catch (MalformedURLException e) {
