@@ -1,21 +1,18 @@
 package com.siddhiApi.webhook;
 
+import com.siddhiApi.authorization.ApiKeyAuth;
 import org.asynchttpclient.*;
-import org.asynchttpclient.util.HttpConstants;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 
 public class Webhook{
     private final String url;
     private final String method;
     private final String body;
+    private static final ApiKeyAuth apiKeyAuth = ApiKeyAuth.getApiKeyAuth();
 
     static AsyncHttpClient asyncClient = Dsl.asyncHttpClient();
 
@@ -25,51 +22,6 @@ public class Webhook{
         this.url = url;
         this.method = method;
         this.body = body;
-
-        //JSONObject jsonToSend = new JSONObject(body);
-        /*Thread thread = new Thread(() -> {
-            try {
-                HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
-                connection.setRequestMethod(this.method);
-                connection.setRequestProperty("Content-Type", "application/json; utf-8");
-                connection.setDoOutput(true);
-                try(OutputStream os = connection.getOutputStream()) {
-                    byte[] input = this.body.getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                }
-                logger.info("Connection Request method: " +connection.getRequestMethod());
-                logger.info("Connection Content type: " +connection.getRequestProperty("Content type"));
-                logger.info("Connection Do output: " +connection.getDoOutput());
-                connection.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });*/
-        /*try {
-            HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
-            connection.setRequestMethod(this.method);
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            connection.setDoOutput(true);
-            try(OutputStream os = connection.getOutputStream()) {
-                byte[] input = this.body.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-            logger.info("Connection Request method: " +connection.getRequestMethod());
-            logger.info("Connection Content type: " +connection.getRequestProperty("Content-Type"));
-            logger.info("Connection Do output: " +connection.getDoOutput());
-            connection.connect();
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-                logger.info(response.toString());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
         OutputStream os = new ByteArrayOutputStream();
         byte[] input = null;
@@ -82,14 +34,24 @@ public class Webhook{
 
         assert input != null;
 
-        Request request = new RequestBuilder()
-                .setUrl(this.url)
-                .setMethod(this.method)
-                .setBody(this.body)
-                //.setBody(input)
-                .setHeader("Content-Type", "application/json")
-                //.setCharset()//
-                .build();
+        Request request;
+
+        if (apiKeyAuth.apiKeyStablished()){
+            request = new RequestBuilder()
+                    .setUrl(this.url)
+                    .setMethod(this.method)
+                    .setBody(this.body)
+                    .setHeader("Content-Type", "application/json")
+                    .setHeader("api_key", apiKeyAuth.getApi_key())
+                    .build();
+        } else {
+            request = new RequestBuilder()
+                    .setUrl(this.url)
+                    .setMethod(this.method)
+                    .setBody(this.body)
+                    .setHeader("Content-Type", "application/json")
+                    .build();
+        }
 
         asyncClient.executeRequest(request, new AsyncCompletionHandler<Object>() {
             @Override
@@ -102,7 +64,5 @@ public class Webhook{
         logger.info("URL: " + this.url);
         logger.info("Method: " + this.method);
         logger.info("Body: " + this.body);
-
-        //thread.start();
     }
 }

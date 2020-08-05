@@ -1,5 +1,6 @@
 package com.siddhiApi.controller;
 
+import com.siddhiApi.authorization.ApiKeyAuth;
 import com.siddhiApi.entity.Pattern;
 import com.siddhiApi.exceptions.NotFoundException;
 import com.siddhiApi.services.PatternService;
@@ -21,13 +22,18 @@ public class PatternsController {
 	@Autowired
 	private final PatternService patternService;
 
+	private final ApiKeyAuth apiKeyAuth = ApiKeyAuth.getApiKeyAuth();
+
 	public PatternsController(PatternService patternService) {
 		this.patternService = patternService;
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("")
-	public void runPattern(@RequestBody Pattern pattern) { //HttpEntity<String> instead of String
+	public void runPattern(@RequestBody Pattern pattern, @RequestHeader(required = false, name = "X-API-Key") String api_key) { //HttpEntity<String> instead of String
+		if (!apiKeyAuth.auth(api_key)){
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+		}
 		try {
 			patternService.runPattern(pattern);
 		} catch (NotFoundException nfe){
@@ -38,12 +44,18 @@ public class PatternsController {
 	}
 
 	@GetMapping("")
-	public Pattern[] getPatterns(){
+	public Pattern[] getPatterns(@RequestHeader(required = false, name = "X-API-Key") String api_key){
+		if (!apiKeyAuth.auth(api_key)){
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+		}
 		return patternService.getPatterns();
 	}
 
 	@GetMapping("/{id}")
-	public Pattern getPatterns(@PathVariable String id){
+	public Pattern getPatterns(@PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
+		if (!apiKeyAuth.auth(api_key)){
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+		}
 		try {
 			return patternService.getPattern(id);
 		} catch (NotFoundException e) {
@@ -53,7 +65,10 @@ public class PatternsController {
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}")
-	public void updatePattern(@PathVariable String id, @RequestBody Pattern patternToUpdate){
+	public void updatePattern(@PathVariable String id, @RequestBody Pattern patternToUpdate, @RequestHeader(required = false, name = "X-API-Key") String api_key){
+		if (!apiKeyAuth.auth(api_key)){
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+		}
 		try {
 			patternService.updatePattern(id, patternToUpdate);
 		} catch (NotFoundException notFoundException){
@@ -65,7 +80,10 @@ public class PatternsController {
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void deletePattern(@PathVariable String id){
+	public void deletePattern(@PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
+		if (!apiKeyAuth.auth(api_key)){
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+		}
 		try {
 			patternService.removePattern(id);
 		} catch (NotFoundException notFoundException) {

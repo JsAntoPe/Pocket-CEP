@@ -24,6 +24,7 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {
+
         pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
         PatternCodeChecker.outputStreamCheck(pattern);
         patternDAO.runPattern(pattern);
