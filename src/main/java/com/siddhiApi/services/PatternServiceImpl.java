@@ -2,8 +2,9 @@ package com.siddhiApi.services;
 
 import com.siddhiApi.dao.PatternDAO;
 import com.siddhiApi.entity.Pattern;
-import com.siddhiApi.entity.Stream;
+import com.siddhiApi.exceptions.CyclePatternError;
 import com.siddhiApi.exceptions.NotFoundException;
+import com.siddhiApi.util.CyclePatternChecker;
 import com.siddhiApi.util.PatternCodeChecker;
 import com.siddhiApi.util.PatternCodeGeneratorMediator;
 import io.siddhi.core.exception.SiddhiAppCreationException;
@@ -24,8 +25,10 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public void runPattern(Pattern pattern) throws Exception {
-
         pattern.setPatternCode(PatternCodeGeneratorMediator.getFullApplicationCode(pattern));
+        if (!CyclePatternChecker.checkCyclePattern(pattern, patternDAO.getPatterns()))
+            throw new CyclePatternError("The last pattern introduced creates an infinite loop, check the output and input streams");
+
         PatternCodeChecker.outputStreamCheck(pattern);
         patternDAO.runPattern(pattern);
     }

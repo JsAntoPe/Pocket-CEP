@@ -25,6 +25,7 @@ public class ApiKeyAuth {
     }
 
     public boolean auth(String api_key){
+        //return true;
         return this.api_key.equals("none") || validApiKey(api_key);
     }
 
