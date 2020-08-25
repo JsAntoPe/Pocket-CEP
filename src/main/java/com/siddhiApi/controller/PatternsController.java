@@ -32,7 +32,7 @@ public class PatternsController {
 	@PostMapping("")
 	public void runPattern(@RequestBody Pattern pattern, @RequestHeader(required = false, name = "X-API-Key") String api_key) { //HttpEntity<String> instead of String
 		if (!apiKeyAuth.auth(api_key)){
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
 		}
 		try {
 			patternService.runPattern(pattern);
@@ -46,7 +46,7 @@ public class PatternsController {
 	@GetMapping("")
 	public Pattern[] getPatterns(@RequestHeader(required = false, name = "X-API-Key") String api_key){
 		if (!apiKeyAuth.auth(api_key)){
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
 		}
 		return patternService.getPatterns();
 	}
@@ -54,7 +54,7 @@ public class PatternsController {
 	@GetMapping("/{id}")
 	public Pattern getPatterns(@PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
 		if (!apiKeyAuth.auth(api_key)){
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
 		}
 		try {
 			return patternService.getPattern(id);
@@ -67,7 +67,7 @@ public class PatternsController {
 	@PutMapping("/{id}")
 	public void updatePattern(@PathVariable String id, @RequestBody Pattern patternToUpdate, @RequestHeader(required = false, name = "X-API-Key") String api_key){
 		if (!apiKeyAuth.auth(api_key)){
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
 		}
 		try {
 			patternService.updatePattern(id, patternToUpdate);
@@ -82,7 +82,7 @@ public class PatternsController {
 	@DeleteMapping("/{id}")
 	public void deletePattern(@PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
 		if (!apiKeyAuth.auth(api_key)){
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
 		}
 		try {
 			patternService.removePattern(id);

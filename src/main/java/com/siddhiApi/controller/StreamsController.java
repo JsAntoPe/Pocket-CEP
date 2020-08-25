@@ -36,7 +36,7 @@ public class StreamsController {
     @PostMapping()
     public void createStream(@RequestBody Stream stream, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             streamService.createStream(stream);
@@ -48,7 +48,7 @@ public class StreamsController {
     @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
     public String[] getStream(@RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         return Arrays.stream(streamService.getStreams())
                 .map(Stream::getStreamID)
@@ -58,7 +58,7 @@ public class StreamsController {
     @GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getStream(@PathVariable String name, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             return streamService.getStream(name).getJsonSchema().toString();
@@ -71,7 +71,7 @@ public class StreamsController {
     @DeleteMapping(value = "/{name}")
     public void removeStream(@PathVariable String name, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             streamService.removeStream(name);
@@ -87,7 +87,7 @@ public class StreamsController {
     public void sendEvent(@PathVariable String streamID, @RequestBody Object event, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         logger.info("Printing event schema: " + event);
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             streamService.sendEvent(streamID, event);
@@ -104,7 +104,7 @@ public class StreamsController {
     @PostMapping(value = "/{streamID}/subscriptions")
     public Subscription subscribe(@PathVariable String streamID, @RequestBody Subscription subscription, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             return streamService.subscribe(streamID, subscription);
@@ -116,7 +116,7 @@ public class StreamsController {
     @GetMapping(value = "/{streamID}/subscriptions")
     public Subscription[] getStreamSubscriptions(@PathVariable String streamID, @RequestHeader(required = false, name = "X-API-Key") String api_key) {
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             return streamService.getSubscriptions(streamID);
@@ -128,7 +128,7 @@ public class StreamsController {
     @GetMapping(value = "/{streamID}/subscriptions/{id}")
     public Subscription getStreamSubscription(@PathVariable String streamID, @PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             return streamService.getSubscription(streamID, id);
@@ -141,7 +141,7 @@ public class StreamsController {
     @DeleteMapping(value = "/{streamID}/subscriptions/{id}")
     public void deleteStreamSubscription(@PathVariable String streamID, @PathVariable String id, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             streamService.unsubscribe(streamID, id);
@@ -155,7 +155,7 @@ public class StreamsController {
     public void updateStreamSubscription(@PathVariable String streamID, @PathVariable String subscriptionID,
                                          @RequestBody Subscription subscription, @RequestHeader(required = false, name = "X-API-Key") String api_key){
         if (!apiKeyAuth.auth(api_key)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The api key introduced is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The api key introduced is not valid");
         }
         try {
             streamService.updateSubscription(streamID, subscriptionID, subscription);

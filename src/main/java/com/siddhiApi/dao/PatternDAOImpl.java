@@ -26,6 +26,12 @@ public class PatternDAOImpl implements PatternDAO {
 
 	public void runPattern(Pattern pattern) throws DuplicatedEntity, SiddhiAppException {
 		// TODO Auto-generated method stub
+		logger.info("Pattern Name: " + pattern.getPatternName());
+		for (String inputStream: pattern.getInputStreamNames()){
+			logger.info("Pattern Input Stream Name: " + inputStream);
+		}
+		logger.info("Pattern Output Stream: " + pattern.getOutputStreamName());
+		logger.info("Pattern Code: " + pattern.getPatternCode());
 		patternsDatabase.addPattern(pattern);
 		try{
 			SiddhiApplicationManager.runApp(
@@ -43,13 +49,6 @@ public class PatternDAOImpl implements PatternDAO {
 			}
 			throw new SiddhiAppException(e);
 		}
-
-		logger.info("Pattern Name: " + pattern.getPatternName());
-		for (String inputStream: pattern.getInputStreamNames()){
-			logger.info("Pattern Input Stream Name: " + inputStream);
-		}
-		logger.info("Pattern Output Stream: " + pattern.getOutputStreamName());
-		logger.info("Pattern Code: " + pattern.getPatternCode());
 	}
 
 	@Override

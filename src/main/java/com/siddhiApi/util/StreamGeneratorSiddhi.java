@@ -16,7 +16,8 @@ public class StreamGeneratorSiddhi implements StreamGenerator{
         {
             put("number", "double");
             put("string", "string");
-            put("integer", "int");
+            //put("integer", "int");
+            put("integer", "long");
             put("boolean", "boolean");
         }
     };
