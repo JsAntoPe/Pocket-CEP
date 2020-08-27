@@ -7,16 +7,16 @@ import java.util.concurrent.Executors;
 
 public class EventExecutor{
     private static EventExecutor eventExecutor;
-    private final ExecutorService executorProducer;
+    //private final ExecutorService executorProducer;
     private final ExecutorService executorConsumer;
 
     private EventExecutor(){
-        this.executorProducer = Executors.newFixedThreadPool(4); //Anterior 3
-        this.executorConsumer = Executors.newFixedThreadPool(5); //Anterior 4
+        //this.executorProducer = Executors.newFixedThreadPool(4); //Anterior 3
+        this.executorConsumer = Executors.newFixedThreadPool(6); //Anterior 5
     }
 
     public void executeProducer(String streamName, Object[] event){
-        executorProducer.execute(new Producer(streamName, event));
+        //executorProducer.execute(new Producer(streamName, event));
     }
 
     public void executeConsumer(){
@@ -32,7 +32,7 @@ public class EventExecutor{
 
 
 
-    public static class Producer implements Runnable{
+    /*public static class Producer implements Runnable{
         String streamName;
         Object[] event;
 
@@ -45,7 +45,7 @@ public class EventExecutor{
         public void run() {
             SendEventProducerConsumer.addPetition(new SendEventProducerConsumer.SendEventPetition(streamName, event));
         }
-    }
+    }*/
 
     public static class Consumer implements Runnable{
         SendEventProducerConsumer.SendEventPetition sendEventPetition;
