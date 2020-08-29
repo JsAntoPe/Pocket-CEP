@@ -42,7 +42,7 @@ public class Webhook{
                     .setMethod(this.method)
                     .setBody(this.body)
                     .setHeader("Content-Type", "application/json")
-                    .setHeader("api_key", apiKeyAuth.getApi_key())
+                    .setHeader("X-API-Key", apiKeyAuth.getApi_key())
                     .build();
         } else {
             request = new RequestBuilder()
