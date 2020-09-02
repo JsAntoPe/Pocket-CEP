@@ -19,6 +19,9 @@ public class Parsers {
             logger.info("Property: " + property);
             logger.info("Value of that property: " + jsonObject.get(property));
             eventParsed[i] = jsonObject.get(property);
+            if(eventParsed[i] instanceof Integer){
+                eventParsed[i] = Long.parseLong(eventParsed[i].toString());
+            }
             ++i;
         }
         return eventParsed;
