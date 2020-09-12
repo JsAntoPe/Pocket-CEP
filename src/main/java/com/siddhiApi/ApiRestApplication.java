@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiRestApplication {
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		for (int i=0; i<5;++i)
+		for (int i=0; i<4;++i)
 			EventExecutor.getEventExecutor().executeConsumer();
 		SpringApplication.run(ApiRestApplication.class, args);
 	}

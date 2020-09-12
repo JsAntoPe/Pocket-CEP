@@ -12,7 +12,7 @@ public class EventExecutor{
 
     private EventExecutor(){
         //this.executorProducer = Executors.newFixedThreadPool(4); //Anterior 3
-        this.executorConsumer = Executors.newFixedThreadPool(6); //Anterior 5
+        this.executorConsumer = Executors.newFixedThreadPool(4); //Anterior 5
     }
 
     public void executeProducer(String streamName, Object[] event){
