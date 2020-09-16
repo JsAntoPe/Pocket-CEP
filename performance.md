@@ -21,6 +21,9 @@ Command to run the artillery script:
 artillery run EventArtillery.yml
 ```
 
+The script uses a file called Event.csv for the data. Each event is composed of an index, which is the number of the column, and the value, in my
+case a random number between 1 and 10. The value does not need to comply with this last rule, is just need to be a number.
+
 ### *server.py*
 
 This file represent the file that will take all the final complex events, and it will add the timestamp to each of them as they reach the
@@ -34,9 +37,6 @@ Example of a command:
 ```
 python3 server.py 8081 20perSecond5min
 ```
-
-# Event.csv
-Event.csv is a file containing the data for this experiment. It is used by the *Artillery* script.
 
 ## Steps to perform the testing.
 * First, start the server, that will be the destination of all the complex event processed during the execution.
