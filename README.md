@@ -48,4 +48,7 @@ For testing the service, I have used Postman, writing http requests. In case you
 npx degit https://github.com/JsAntoPe/Pocket-CEP/postman simpleExample
 npx newman run simpleExample/PocketCEPTesting.postman_collection.json
 ```
-Postman collection used in the testing part:[Postman Collection](https://documenter.getpostman.com/view/9546113/T1DmEyqo).
+Postman collection used in the testing part: [Postman Collection](https://documenter.getpostman.com/view/9546113/T1DmEyqo).
+
+### Performance Testing
+In case you want to perform a performance testing, you can follow the steps in this [file](https://github.com/JsAntoPe/Pocket-CEP/blob/master/performance.md).
