@@ -17,9 +17,9 @@ This is the script for *Artillery*. The arrival rate is the number of requests p
 experiment, measured in seconds. The simple scenario has an additional file containing a function to add the timestamp in the simple scenario.
 
 Command to run the artillery script:
-´´´
+```
 artillery run EventArtillery.yml
-´´´
+```
 
 ### *server.py*
 
