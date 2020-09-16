@@ -35,6 +35,9 @@ Example of a command:
 python3 server.py 8081 20perSecond5min
 ```
 
+# Event.csv
+Event.csv is a file containing the data for this experiment. It is used by the *Artillery* script.
+
 ## Steps to perform the testing.
 * First, start the server, that will be the destination of all the complex event processed during the execution.
 * Second, run the docker container of *Pocket-CEP*.
